@@ -1,0 +1,46 @@
+{
+  "nav": {
+    "home": "Accueil",
+    "about": "À propos",
+    "projects": "Projets",
+    "contact": "Contact"
+  },
+  "hero": {
+    "badge": "AIA LAB — Studio de Design Premium",
+    "title1": "Design &",
+    "title2": "Performance.",
+    "desc": "Nous créons des expériences digitales mémorables pour les marques ambitieuses qui redéfinissent leur futur avec force et clarté.",
+    "btn_start": "Lancer un projet",
+    "btn_projects": "Explorer les réalisations"
+  },
+  "about": {
+    "title": "Nous façonnons l'avenir des marcas influentes.",
+    "desc": "AIA LAB est un studio créatif basé au Cameroun, dédié à l'excellence digitale. Nous combinons stratégie, design et technologie pour propulser votre croissance."
+  },
+  "services": {
+    "title": "Nos <em>Expertises.</em>",
+    "design_title": "Design Visuel",
+    "design_desc": "Identités de marque percutantes et interfaces utilisateurs premium.",
+    "dev_title": "Développement",
+    "dev_desc": "Solutions complexes sur mesure avec des performances de pointe.",
+    "strategy_title": "Stratégie Digitale",
+    "strategy_desc": "Conseil en croissance et transformation numérique."
+  },
+  "projects": {
+    "slider_title": "Dernières <em>masterpieces.</em>",
+    "btn_all": "Voir tout le portfolio",
+    "page_title": "Notre <em>Portfolio de Master.</em>",
+    "page_desc": "Découvrez comment nous transformons les marques à travers le design, la technologie et la stratégie numérique.",
+    "filter_all": "Tous",
+    "filter_branding": "Branding",
+    "filter_web": "Web Design",
+    "filter_digital": "Digital"
+  },
+  "contact": {
+    "cta_title": "Prêt à donner vie à votre <em>prochain projet ?</em>",
+    "cta_btn": "Lancer la conversation"
+  },
+  "footer": {
+    "copyright": "© 2025 AIA LAB Studio. Excellence Digitale au Cameroun."
+  }
+}

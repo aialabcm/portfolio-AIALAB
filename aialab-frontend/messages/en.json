@@ -1,0 +1,52 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "projects": "Projects",
+    "contact": "Contact"
+  },
+  "hero": {
+    "badge": "AIA LAB — Premium Design Studio",
+    "title1": "Design &",
+    "title2": "Performance.",
+    "desc": "We create memorable digital experiences for ambitious brands that redefine their future with strength and clarity.",
+    "btn_start": "Start a Project",
+    "btn_projects": "Explore Work"
+  },
+  "about": {
+    "title": "We shape the future of influential brands.",
+    "desc": "AIA LAB is a Cameroon-based creative studio dedicated to digital excellence. We combine strategy, design, and technology to propel your growth."
+  },
+  "services": {
+    "title": "Our <em>Expertise.</em>",
+    "design_title": "Visual Design",
+    "design_desc": "Impactful brand identities and premium user interfaces.",
+    "dev_title": "Development",
+    "dev_desc": "Bespoke complex solutions with cutting-edge performance.",
+    "strategy_title": "Digital Strategy",
+    "strategy_desc": "Growth consulting and digital transformation."
+  },
+  "projects": {
+    "slider_title": "Latest <em>masterpieces.</em>",
+    "btn_all": "View Full Portfolio",
+    "page_title": "Our <em>Master Portfolio.</em>",
+    "page_desc": "Discover how we transform brands through design, technology, and digital strategy.",
+    "filter_all": "All",
+    "filter_branding": "Branding",
+    "filter_web": "Web Design",
+    "filter_digital": "Digital"
+  },
+  "contact": {
+    "cta_title": "Ready to bring your <em>next project to life?</em>",
+    "cta_btn": "Start the Conversation",
+    "form_title": "Say <em>Hello.</em>",
+    "name": "Name",
+    "email": "Email",
+    "subject": "Subject",
+    "message": "Message",
+    "send": "Send Message"
+  },
+  "footer": {
+    "copyright": "© 2025 AIA LAB Studio. Digital Excellence in Cameroon."
+  }
+}
