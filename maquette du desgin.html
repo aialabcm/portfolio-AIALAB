@@ -1,0 +1,1168 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AIA LAB | Master Edition Deep Azure</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
+
+        :root {
+            --cyan: #00D2FF;
+            --azure-deep: #0080FF;
+            --white: #ffffff;
+            --dark: #111111;
+            --bg: #050a18;
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(0, 210, 255, 0.1);
+            --blur: 50px;
+            --radius: 60px;
+            --radius-md: 32px;
+            --transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--white);
+            font-family: 'Roboto', sans-serif;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+
+        /* ATMOSPHERIC BACKGROUNDS */
+        .page-bg {
+            position: fixed;
+            top: -10%;
+            left: -10%;
+            width: 120%;
+            height: 120%;
+            z-index: -2;
+            transition: transform 0.1s linear, background 1.5s ease-in-out;
+            background: #000;
+            will-change: transform;
+        }
+
+        .page-bg.home,
+        .page-bg.internal {
+            background: radial-gradient(circle at center, #0a1b2b 0%, #050a18 70%);
+        }
+
+        /* NAVIGATION PILL */
+        header {
+            position: fixed;
+            top: 32px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            z-index: 2000;
+        }
+
+        .nav-pill {
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: none;
+            padding: 22px 100px;
+            border-radius: 100px;
+            display: flex;
+            gap: 70px;
+            align-items: center;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            animation: floatNav 4s ease-in-out infinite;
+        }
+
+        @keyframes floatNav {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+
+        .nav-link {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.5);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            cursor: pointer;
+            transition: 0.3s;
+            font-weight: 400;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--white);
+            transform: scale(1.1);
+            text-shadow: 0 0 15px var(--cyan);
+        }
+
+        .nav-lang {
+            padding-left: 20px;
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            gap: 12px;
+            font-size: 11px;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        .nav-lang span {
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .nav-lang span.active {
+            color: var(--white);
+        }
+
+        /* CONTENT VIEWS */
+        .view {
+            display: none;
+            width: 100%;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: var(--transition);
+        }
+
+        .view.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* THE MASTER GLASS PANEL */
+        .glass-panel {
+            padding: 120px 40px;
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(60px);
+            transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            border: none;
+            will-change: transform, opacity;
+        }
+
+        .glass-panel.revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* STAGGERED REVEAL */
+        .glass-panel > * { opacity: 0; transform: translateY(20px); transition: 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .glass-panel.revealed > * { opacity: 1; transform: translateY(0); }
+        .glass-panel.revealed > *:nth-child(1) { transition-delay: 0.1s; }
+        .glass-panel.revealed > *:nth-child(2) { transition-delay: 0.3s; }
+        .glass-panel.revealed > *:nth-child(3) { transition-delay: 0.5s; }
+        .glass-panel.revealed > *:nth-child(4) { transition-delay: 0.7s; }
+
+        .mouse-halo {
+            position: fixed;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(0, 210, 255, 0.08) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: -1;
+            transform: translate(-50%, -50%);
+            transition: 0.1s ease-out;
+            will-change: transform;
+        }
+
+        /* GRID & LAYOUTS */
+        .container {
+            max-width: 1650px;
+            margin: 0 auto;
+            width: 100%;
+            padding: 0 60px;
+        }
+
+        .flex-split {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-top: 60px;
+        }
+
+        .glass-card {
+            padding: 48px;
+            border-radius: var(--radius-md);
+            border: none;
+            transition: 0.5s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-12px) scale(1.02);
+            border-color: var(--cyan);
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.4), 0 0 30px rgba(0, 210, 255, 0.1);
+        }
+
+        /* MASTER BUTTONS */
+        .btn-master {
+            background: white;
+            color: black;
+            border: none;
+            padding: 22px 60px;
+            border-radius: 100px;
+            font-weight: 400;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-block;
+            text-decoration: none;
+        }
+
+        .btn-master:hover {
+            transform: scale(1.05) translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 210, 255, 0.2);
+            background: var(--cyan);
+            color: black;
+        }
+
+        /* TYPOGRAPHY */
+        h1 {
+            font-size: 88px;
+            font-weight: 100;
+            line-height: 1;
+            letter-spacing: -0.04em;
+            margin-bottom: 24px;
+        }
+
+        h1 em {
+            font-style: normal;
+            font-weight: 300;
+            color: var(--cyan);
+        }
+
+        h2 {
+            font-size: 64px;
+            font-weight: 100;
+            line-height: 1.1;
+            letter-spacing: -0.04em;
+            margin-bottom: 32px;
+        }
+
+        h2 em {
+            font-style: normal;
+            font-weight: 400;
+            color: var(--cyan);
+        }
+
+        h3 {
+            font-size: 36px;
+            font-weight: 300;
+            margin-bottom: 24px;
+        }
+
+        h3 em {
+            font-style: normal;
+            font-weight: 400;
+            color: var(--cyan);
+        }
+
+        p {
+            font-size: 18px;
+            font-weight: 300;
+            color: rgba(255, 255, 255, 0.6);
+            max-width: 850px;
+        }
+
+
+
+        /* HERO */
+        .hero-master {
+            min-height: 95vh;
+            max-width: 1650px;
+            margin: 20px auto 40px;
+            display: flex;
+            align-items: center;
+            padding: 0 !important;
+            opacity: 0;
+            transition: opacity 2s ease-out;
+            background: linear-gradient(to right, rgba(5, 10, 24, 0.95) 0%, rgba(5, 10, 24, 0.5) 40%, rgba(5, 10, 24, 0) 100%), 
+                        url('ninhoArtboard 2.jpeg') no-repeat center right / cover;
+            border-radius: 16px;
+            border: none;
+            overflow: hidden;
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.5);
+        }
+
+        body.loaded .hero-master {
+            opacity: 1;
+        }
+
+        .hero-panel {
+            width: 65%;
+            height: 100vh;
+            padding: 0 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .hero-links {
+            margin-top: 60px;
+            display: flex;
+            gap: 40px;
+        }
+
+        .hero-links a {
+            color: var(--cyan);
+            text-decoration: none;
+            cursor: pointer;
+            opacity: 0.9;
+            transition: 0.3s;
+            font-weight: 400;
+            font-size: 14px;
+        }
+
+        .hero-links a:hover {
+            color: white;
+            opacity: 1;
+        }
+
+        /* SLIDERS */
+        .slider-wrap {
+            display: flex;
+            gap: 32px;
+            overflow-x: auto;
+            padding-bottom: 20px;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            margin-top: 60px;
+        }
+
+        .slider-wrap::-webkit-scrollbar {
+            display: none;
+        }
+
+        .p-item {
+            min-width: 550px;
+            height: 380px;
+            border-radius: 32px;
+            background: rgba(255, 255, 255, 0.05);
+            overflow: hidden;
+            position: relative;
+            transition: 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            cursor: pointer;
+            will-change: transform;
+        }
+
+        .p-item:hover {
+            transform: scale(1.02);
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.5);
+        }
+
+        .p-item:hover .p-over {
+            opacity: 0.9;
+        }
+
+        .p-info {
+            position: absolute;
+            bottom: 48px;
+            left: 48px;
+            z-index: 2;
+            text-align: left;
+        }
+
+        .p-info span {
+            font-size: 11px;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.5);
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .p-info h4 {
+            font-size: 28px;
+            font-weight: 400;
+        }
+
+        .p-over {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.85), transparent);
+        }
+
+        /* FOOTER */
+        footer {
+            padding: 120px 100px 60px;
+            border-top: none;
+            background: #040812;
+        }
+
+        .f-grid {
+            display: grid;
+            grid-template-columns: 2fr repeat(3, 1fr);
+            gap: 60px;
+            text-align: left;
+        }
+
+        .f-links {
+            list-style: none;
+        }
+
+        .f-links li {
+            margin-bottom: 16px;
+        }
+
+        .f-links a {
+            color: rgba(255, 255, 255, 0.5);
+            text-decoration: none;
+            font-size: 14px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .f-links a:hover {
+            color: var(--cyan);
+        }
+
+        @media (max-width: 1100px) {
+            .hero-panel {
+                width: 100%;
+                padding: 140px 40px;
+            }
+
+            .flex-split,
+            .service-grid,
+            .f-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .glass-panel {
+                padding: 80px 40px;
+            }
+
+            h1 {
+                font-size: 56px;
+            }
+
+            h2 {
+                font-size: 40px;
+            }
+        }
+
+        /* AGENCY EXTENSIONS */
+        .domain-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin: 60px 0;
+        }
+
+        .domain-col {
+            position: relative;
+            aspect-ratio: 4/5;
+            border-radius: 32px;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .domain-col img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.8;
+            transition: 0.5s ease;
+        }
+
+        .domain-col:hover img {
+            opacity: 1;
+            transform: scale(1.05);
+        }
+
+        .domain-tag {
+            position: absolute;
+            bottom: 32px;
+            left: 32px;
+            z-index: 2;
+            font-size: 11px;
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--cyan);
+        }
+
+        .domain-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(5, 10, 24, 0.8), transparent);
+        }
+
+        .stat-bar-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            margin-top: 80px;
+        }
+
+        .stat-bar-item {
+            border-top: none;
+            padding-top: 24px;
+        }
+
+        .stat-bar-val {
+            font-size: 32px;
+            font-weight: 400;
+            color: var(--cyan);
+            margin-bottom: 8px;
+        }
+
+        .stat-bar-lbl {
+            font-size: 11px;
+            opacity: 0.4;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 400;
+        }
+
+        /* PORTFOLIO FILTER */
+        .filter-bar { display: flex; gap: 15px; margin-bottom: 48px; flex-wrap: wrap; }
+        .filter-btn { 
+            padding: 10px 24px; border-radius: 50px; background: rgba(255,255,255,0.03); 
+            border: none; font-size: 11px; font-weight: 400; 
+            text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.5); 
+            cursor: pointer; transition: 0.3s;
+        }
+        .filter-btn:hover { background: rgba(255,255,255,0.06); color: white; }
+        .filter-btn.active { background: var(--cyan); color: black; border-color: var(--cyan); }
+        .p-item.hidden { display: none; }
+
+        /* INITIAL STATES FOR AUTO-REVEAL */
+        .service-grid > div, .p-item, .domain-col, h1, h2, h3, .badge {
+            opacity: 0;
+            transform: translateY(60px) scale(0.98);
+            transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .is-revealed {
+            opacity: 1 !important;
+            transform: translateY(0) scale(1) !important;
+        }
+
+        .service-grid > div.is-revealed, .p-item.is-revealed, .domain-col.is-revealed, h1.is-revealed, h2.is-revealed, h3.is-revealed, .badge.is-revealed {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        /* PREMIUM REVEAL ANIMATIONS */
+        .reveal {
+            opacity: 0;
+            transform: translateY(80px) scale(0.95);
+            transition: all 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal.is-revealed {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        .stagger-item {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .is-revealed .stagger-item { opacity: 1; transform: translateY(0); }
+        .is-revealed .stagger-item:nth-child(1) { transition-delay: 0.1s; }
+        .is-revealed .stagger-item:nth-child(2) { transition-delay: 0.2s; }
+        .is-revealed .stagger-item:nth-child(3) { transition-delay: 0.3s; }
+        .is-revealed .stagger-item:nth-child(4) { transition-delay: 0.4s; }
+    </style>
+</head>
+
+<body class="loaded">
+
+    <div id="master-bg" class="page-bg home"></div>
+    <div id="halo" class="mouse-halo"></div>
+
+    <header>
+        <div class="nav-pill">
+            <div class="nav-link" onclick="navTo('home', this)" data-i18n="nav_home">Accueil</div>
+            <div class="nav-link" onclick="navTo('about', this)" data-i18n="nav_about">À propos</div>
+            <div class="nav-link" onclick="navTo('projects', this)" data-i18n="nav_projects">Projets</div>
+            <div class="nav-link" onclick="navTo('contact', this)" data-i18n="nav_contact">Contact</div>
+            <div class="nav-lang">
+                <span onclick="setLang('fr')" id="l-fr" class="active">FR</span>
+                <span onclick="setLang('en')" id="l-en">EN</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- ═════ HOME HUB ═════ -->
+    <div id="view-home" class="view active">
+
+        <!-- HERO -->
+        <section class="hero-master">
+            <div class="hero-panel">
+                <h1 class="reveal" data-i18n="hero_title">Design & <em>Performance.</em></h1>
+                <p class="reveal" data-i18n="hero_desc" style="transition-delay: 0.2s;">Nous créons des expériences digitales mémorables pour les marques ambitieuses
+                    qui redéfinissent leur futur avec force et clarté.</p>
+                <div class="hero-links">
+                    <a onclick="navTo('projects')" data-i18n="hero_btn_projects">Explorer les réalisations</a>
+                    <a onclick="navTo('contact')" data-i18n="hero_btn">Lancer un projet</a>
+                </div>
+            </div>
+        </section>
+
+        <div class="container">
+            <!-- ABOUT PREVIEW FULL -->
+            <section class="glass-panel" style="padding: 120px 0;">
+                <div class="flex-split">
+                    <div>
+
+                        <h2 class="reveal">Nous donnons forme à <em>vos ambitions.</em></h2>
+                        <p style="margin-bottom: 40px;">Né de la volonté de redéfinir les standards créatifs au
+                            Cameroun, AIA LAB est plus qu'un studio : c'est un laboratoire d'idées où la stratégie
+                            rencontre l'émotion visuelle pour bâtir des marques d'exception.</p>
+                        <div style="display: flex; gap: 80px;">
+                            <div>
+                                <h4 style="font-size: 56px; font-weight: 100; color: var(--cyan);">50+</h4>
+                                <p style="font-size: 11px; opacity: 0.5; text-transform: uppercase;">Projets livrés</p>
+                            </div>
+                            <div>
+                                <h4 style="font-size: 56px; font-weight: 100; color: var(--cyan);">03+</h4>
+                                <p style="font-size: 11px; opacity: 0.5; text-transform: uppercase;">Ans d'excellence
+                                </p>
+                            </div>
+                        </div>
+                        <div style="margin-top: 48px; display: inline-block; cursor: pointer; font-weight: 400; border-bottom: 1px solid var(--cyan);"
+                            onclick="navTo('about')">Découvrir le studio →</div>
+                    </div>
+                    <div class="glass-card"
+                        style="aspect-ratio: 16/10; display: flex; align-items: center; justify-content: center;">
+                        <span
+                            style="font-size: 120px; font-weight: 300; opacity: 0.05; letter-spacing: -5px; color: var(--cyan);">AIA</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SERVICES FULL -->
+            <section class="glass-panel" style="padding: 120px 40px;">
+
+                <h2 class="reveal" style="margin-bottom: 24px;">Une vision <em>multidisciplinaire.</em></h2>
+                <p style="margin-bottom: 60px;">De la charte graphique au développement web, nous construisons votre
+                    présence sous tous ses angles avec une rigueur absolue.</p>
+                <div class="service-grid">
+                    <div class="glass-card">
+                        <svg width="48" height="48" stroke="var(--cyan)" stroke-width="1.2" fill="none"
+                            style="margin-bottom: 32px;">
+                            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+                        </svg>
+                        <h4 style="margin-bottom: 15px; font-weight: 400;">Branding & Stratégie</h4>
+                        <p style="font-size: 14px; opacity: 0.6;">Création d'univers visuels uniques et mémorables pour
+                            positionner votre marque avec force sur le marché.</p>
+                    </div>
+                    <div class="glass-card">
+                        <svg width="48" height="48" stroke="var(--cyan)" stroke-width="1.2" fill="none"
+                            style="margin-bottom: 32px;">
+                            <rect x="2" y="3" width="20" height="14" rx="2" />
+                            <path d="M8 21h8M12 17v4" />
+                        </svg>
+                        <h4 style="margin-bottom: 15px; font-weight: 400;">UI/UX & Web Dev</h4>
+                        <p style="font-size: 14px; opacity: 0.6;">Conception de sites performants et d'interfaces
+                            intuitives centrées sur l'expérience de vos utilisateurs.</p>
+                    </div>
+                    <div class="glass-card">
+                        <svg width="48" height="48" stroke="var(--cyan)" stroke-width="1.2" fill="none"
+                            style="margin-bottom: 32px;">
+                            <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z" />
+                            <line x1="4" y1="22" x2="4" y2="15" />
+                        </svg>
+                        <h4 style="margin-bottom: 15px; font-weight: 400;">Design Graphique</h4>
+                        <p style="font-size: 14px; opacity: 0.6;">Supports print et digitaux d'une qualité
+                            exceptionnelle pour votre communication haut de gamme quotidienne.</p>
+                    </div>
+                    <div class="glass-card">
+                        <svg width="48" height="48" stroke="var(--cyan)" stroke-width="1.2" fill="none"
+                            style="margin-bottom: 32px;">
+                            <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+                        </svg>
+                        <h4 style="margin-bottom: 15px; font-weight: 400;">Digital Marketing</h4>
+                        <p style="font-size: 14px; opacity: 0.6;">Campagnes stratégiques basées sur la donnée pour
+                            accroître votre visibilité et engager votre audience cible.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- LATEST PROJECTS -->
+            <section class="glass-panel" style="padding: 120px 40px;">
+
+                <h2 class="reveal" style="margin-bottom: 40px;">Dernières <em>masterpieces.</em></h2>
+                <div class="slider-wrap" id="main-slider">
+                    <div class="p-item" style="background-color: #fcebd2;"><div class="p-over"></div><div class="p-info"><span>Branding / 2024</span><h4>TechCam Solutions</h4></div></div>
+                    <div class="p-item" style="background-color: #d2e4fc;"><div class="p-over"></div><div class="p-info"><span>Web Design / 2024</span><h4>Ngondo Foods</h4></div></div>
+                    <div class="p-item" style="background-color: #d2fce4;"><div class="p-over"></div><div class="p-info"><span>Digital / Marketing</span><h4>EcoBank Promo</h4></div></div>
+                    <div class="p-item" style="background-color: #fcd2d2;"><div class="p-over"></div><div class="p-info"><span>Branding / Luxury</span><h4>Scent of Douala</h4></div></div>
+                </div>
+                <div style="margin-top: 60px;">
+                    <button class="btn-master" onclick="navTo('projects')">Voir tout le portfolio</button>
+                </div>
+            </section>
+
+            <!-- CONTACT HUB PREVIEW (Added) -->
+            <section class="glass-panel" style="text-align: center; padding: 140px 40px;">
+
+                <h2 class="reveal" style="margin: 0 auto 32px; max-width: 1000px;" data-i18n="home_contact_title">Prêt à donner vie à votre <em>prochain
+                        projet ?</em></h2>
+                <p style="margin: 0 auto 48px; max-width: 900px;" data-i18n="home_contact_desc">Que vous soyez une startup ou une
+                    entreprise établie, nous avons l'expertise pour vous faire grandir et rayonner.</p>
+                <div class="btn-master" style="padding: 24px 80px;"
+                    onclick="navTo('contact')" data-i18n="home_contact_btn">Lancer la conversation</div>
+            </section>
+        </div>
+    </div>
+
+    <!-- ═════ AGENCY VIEW FULL ═════ -->
+    <div id="view-about" class="view">
+        <div class="container" style="padding: 180px 0 100px;">
+            
+            <!-- CINEMATIC HEADER -->
+            <section style="text-align: center; margin-bottom: 120px;">
+
+                <h2 class="reveal" style="font-size: 72px; line-height: 1.1; max-width: 1000px; margin: 0 auto;" data-i18n="agency_title">Votre partenaire stratégique pour le <em>succès business.</em></h2>
+            </section>
+
+            <!-- STATS STRIPE -->
+            <div style="margin-bottom: 120px;">
+                <div style="display: flex; justify-content: center; gap: 100px; flex-wrap: wrap; align-items: center;">
+                    <div style="text-align: center;">
+                        <h4 style="font-size: 36px; font-weight: 300; color: var(--cyan); margin-bottom: 5px;">+100</h4>
+                        <p style="font-size: 10px; opacity: 0.4; text-transform: uppercase; letter-spacing: 0.2em; font-weight: 300;"
+                            data-i18n="stat_clients">Clients</p>
+                    </div>
+                    <div style="text-align: center;">
+                        <h4 style="font-size: 36px; font-weight: 300; color: var(--cyan); margin-bottom: 5px;">50+</h4>
+                        <p style="font-size: 10px; opacity: 0.4; text-transform: uppercase; letter-spacing: 0.2em; font-weight: 300;"
+                            data-i18n="stat_projects">Projets livrés</p>
+                    </div>
+                    <div style="text-align: center;">
+                        <h4 style="font-size: 36px; font-weight: 300; color: var(--cyan); margin-bottom: 5px;">+03</h4>
+                        <p style="font-size: 10px; opacity: 0.4; text-transform: uppercase; letter-spacing: 0.2em; font-weight: 400;"
+                            data-i18n="stat_years">Ans d'expérience</p>
+                    </div>
+                    <div style="text-align: center;">
+                        <h4 style="font-size: 36px; font-weight: 300; color: var(--cyan); margin-bottom: 5px;">2</h4>
+                        <p style="font-size: 10px; opacity: 0.4; text-transform: uppercase; letter-spacing: 0.2em; font-weight: 400;"
+                            data-i18n="stat_offices">Agences</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="domain-grid">
+                <div class="domain-col">
+                    <img src="branding_domain_1776275188125.png" alt="Branding" style="border-radius: 20px;">
+                    <div class="domain-overlay" style="border-radius: 20px;"></div>
+                    <div class="domain-tag">BRANDING & DESIGN</div>
+                </div>
+                <div class="domain-col">
+                    <img src="strategy_domain_1776275397832.png" alt="Strategy" style="border-radius: 20px;">
+                    <div class="domain-overlay" style="border-radius: 20px;"></div>
+                    <div class="domain-tag">STRATÉGIE & CONSEIL</div>
+                </div>
+                <div class="domain-col">
+                    <img src="dev_domain_1776275684510.png" alt="Tech" style="border-radius: 20px;">
+                    <div class="domain-overlay" style="border-radius: 20px;"></div>
+                    <div class="domain-tag">TECH & DÉVELOPPEMENT</div>
+                </div>
+            </div>
+
+            <!-- CORE PHILOSOPHY & STATS BARS -->
+            <section class="glass-panel">
+                <div class="flex-split">
+                    <div>
+                        <h3 data-i18n="about_intro_title">Nous façonnons l'avenir des <em>marques influentes.</em></h3>
+                        <p data-i18n="about_intro_p1">Avec plus d'expertise cumulée à travers diverses industries, notre équipe dédiée s'engage à propulser votre croissance grâce à une excellence opérationnelle et créative sans compromis.</p>
+                    </div>
+                    <div>
+                        <p style="opacity: 0.6; line-height: 1.8;" data-i18n="about_intro_p2">Nous nous spécialisons dans la livraison de solutions sur mesure qui génèrent des résultats tangibles. Que ce soit pour la finance, la technologie ou le luxe, nous transformons vos défis en opportunités de marché dominantes.</p>
+                    </div>
+                </div>
+
+                <!-- STAT BARS (Mockup Style) -->
+                <div class="stat-bar-row">
+                    <div class="stat-bar-item">
+                        <div class="stat-bar-val">98%</div>
+                        <div class="stat-bar-lbl" data-i18n="stat_satisfaction">Satisfaction Client</div>
+                    </div>
+                    <div class="stat-bar-item">
+                        <div class="stat-bar-val">100+</div>
+                        <div class="stat-bar-lbl" data-i18n="stat_projects_long">Projets Livrés avec Succès</div>
+                    </div>
+                    <div class="stat-bar-item">
+                        <div class="stat-bar-val">+03</div>
+                        <div class="stat-bar-lbl" data-i18n="stat_years_long">Années d'Expertise</div>
+                    </div>
+                    <div class="stat-bar-item">
+                        <div class="stat-bar-val">2</div>
+                        <div class="stat-bar-lbl" data-i18n="stat_offices_long">Agences Stratégiques</div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="glass-panel" style="text-align: center;">
+                <h3 style="font-weight: 300;">Notre Processus <em>Rigoureux</em></h3>
+                <div class="service-grid" style="margin-top: 80px;">
+                    <div class="glass-card">
+                        <div style="color: var(--cyan); font-size: 36px; font-weight: 300; margin-bottom: 24px;">01.
+                        </div>
+                        <h4>Immersion</h4>
+                        <p style="font-size: 14px; opacity: 0.6;">Audit complet de vos enjeux business, étude de vos
+                            concurrents et de vos aspirations profondes.</p>
+                    </div>
+                    <div class="glass-card">
+                        <div style="color: var(--cyan); font-size: 36px; font-weight: 900; margin-bottom: 24px;">02.
+                        </div>
+                        <h4>Stratégie</h4>
+                        <p style="font-size: 14px; opacity: 0.6;">Définition d'un angle d'attaque créatif et
+                            technologique unique pour différencier votre projet.</p>
+                    </div>
+                    <div class="glass-card">
+                        <div style="color: var(--cyan); font-size: 36px; font-weight: 900; margin-bottom: 24px;">03.
+                        </div>
+                        <h4>Création</h4>
+                        <p style="font-size: 14px; opacity: 0.6;">Développement du design haute-fidélité et de la
+                            technologie jusqu'à l'excellence visuelle.</p>
+                    </div>
+                    <div class="glass-card">
+                        <div style="color: var(--cyan); font-size: 36px; font-weight: 900; margin-bottom: 24px;">04.
+                        </div>
+                        <h4>Lancement</h4>
+                        <p style="font-size: 14px; opacity: 0.6;">Expansion et suivi de performance pour s'assurer que
+                            vos objectifs business sont atteints.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="glass-panel" style="text-align: center;">
+
+                <h2>Des talents <em>passionnés.</em></h2>
+                <div class="service-grid" style="margin-top: 60px;">
+                    <div class="glass-card">
+                        <div
+                            style="width: 100px; height: 100px; background: rgba(255,255,255,0.05); border-radius: 50%; margin: 0 auto 32px; border: none;">
+                        </div>
+                        <h4 style="font-weight: 400;">Directeur Créatif</h4>
+                        <p style="font-size: 13px; opacity: 0.5;">Vision & Brand Strategy</p>
+                    </div>
+                    <div class="glass-card">
+                        <div
+                            style="width: 100px; height: 100px; background: rgba(255,255,255,0.05); border-radius: 50%; margin: 0 auto 32px; border: none;">
+                        </div>
+                        <h4>Lead Developer</h4>
+                        <p style="font-size: 13px; opacity: 0.5;">Architecture & Code</p>
+                    </div>
+                    <div class="glass-card">
+                        <div
+                            style="width: 100px; height: 100px; background: rgba(255,255,255,0.05); border-radius: 50%; margin: 0 auto 32px; border: none;">
+                        </div>
+                        <h4>Brand Designer</h4>
+                        <p style="font-size: 13px; opacity: 0.5;">Identité & Graphisme</p>
+                    </div>
+                    <div class="glass-card">
+                        <div
+                            style="width: 100px; height: 100px; background: rgba(255,255,255,0.05); border-radius: 50%; margin: 0 auto 32px; border: none;">
+                        </div>
+                        <h4>Project Manager</h4>
+                        <p style="font-size: 13px; opacity: 0.5;">Coordination & Succès</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- ═════ PORTFOLIO VIEW FULL ═════ -->
+    <div id="view-projects" class="view">
+        <div class="container" style="padding: 80px 0 100px;">
+            <section class="glass-panel" style="padding-top: 0;">
+
+                <h2 style="margin-bottom: 24px;" data-i18n="port_master_title">Notre <em>Portfolio de Master.</em></h2>
+                <p style="margin-bottom: 48px;" data-i18n="port_master_desc">Découvrez comment nous transformons les marques à travers le design, la technologie et la stratégie numérique.</p>
+                
+                <!-- FILTER MENU -->
+                <div class="filter-bar">
+                    <button class="filter-btn active" onclick="filterProjects('all', this)" data-i18n="filter_all">Tous</button>
+                    <button class="filter-btn" onclick="filterProjects('branding', this)" data-i18n="filter_branding">Branding</button>
+                    <button class="filter-btn" onclick="filterProjects('web', this)" data-i18n="filter_web">Web Design</button>
+                    <button class="filter-btn" onclick="filterProjects('digital', this)" data-i18n="filter_digital">Digital</button>
+                </div>
+
+                <!-- MASTER SLIDER -->
+                <div class="slider-wrap" id="master-portfolio-slider">
+                    <!-- Branding -->
+                    <div class="p-item" data-cat="branding" style="background-color: #fcebd2;"><div class="p-over"></div><div class="p-info"><span>Branding / 2024</span><h4>TechCam Solutions</h4></div></div>
+                    <div class="p-item" data-cat="branding" style="background-color: #fcd2d2;"><div class="p-over"></div><div class="p-info"><span>Identity / Luxury</span><h4>Scent of Douala</h4></div></div>
+                    <div class="p-item" data-cat="branding" style="background-color: #fcf6d2;"><div class="p-over"></div><div class="p-info"><span>Branding / Event</span><h4>Yaoundé Jazz Festival</h4></div></div>
+                    
+                    <!-- Web -->
+                    <div class="p-item" data-cat="web" style="background-color: #d2e4fc;"><div class="p-over"></div><div class="p-info"><span>E-Commerce / 2024</span><h4>Ngondo Foods</h4></div></div>
+                    <div class="p-item" data-cat="web" style="background-color: #e4d2fc;"><div class="p-over"></div><div class="p-info"><span>SaaS / UI Design</span><h4>FinTech App Design</h4></div></div>
+                    <div class="p-item" data-cat="web" style="background-color: #d2fce4;"><div class="p-over"></div><div class="p-info"><span>Portfolio / Creative</span><h4>Arch-Studio CM</h4></div></div>
+
+                    <!-- Digital -->
+                    <div class="p-item" data-cat="digital" style="background-color: #d2fce4;"><div class="p-over"></div><div class="p-info"><span>Campaign / Social</span><h4>EcoBank Promo</h4></div></div>
+                    <div class="p-item" data-cat="digital" style="background-color: #fcebd2;"><div class="p-over"></div><div class="p-info"><span>Strategy / 2023</span><h4>MTN Summer Campaign</h4></div></div>
+                    <div class="p-item" data-cat="digital" style="background-color: #d2e4fc;"><div class="p-over"></div><div class="p-info"><span>Ads / Creative</span><h4>Orange Money Redesign</h4></div></div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- ═════ CONTACT VIEW FULL ═════ -->
+    <div id="view-contact" class="view">
+        <div class="container" style="padding: 180px 0 100px;">
+            <div style="display: grid; grid-template-columns: 1.25fr 1fr; gap: 24px;">
+                <section class="glass-panel" style="margin-bottom: 0; padding: 100px;">
+
+                    <h2 style="font-size: 64px; margin-bottom: 60px;">Commençons quelque chose de <em>grand.</em></h2>
+                    <div style="margin-bottom: 40px;">
+                        <label
+                            style="display: block; font-size: 11px; font-weight: 700; color: var(--cyan); letter-spacing: 0.1em; margin-bottom: 15px;">PRÉNOM
+                            & NOM</label>
+                        <input type="text" placeholder="Ex: Jean Dupont"
+                            style="width: 100%; background: none; border: none; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px; color: white; font-size: 16px;">
+                    </div>
+                    <div style="margin-bottom: 40px;">
+                        <label
+                            style="display: block; font-size: 11px; font-weight: 700; color: var(--cyan); letter-spacing: 0.1em; margin-bottom: 15px;">EMAIL
+                            PROFESSIONNEL</label>
+                        <input type="email" placeholder="votre@entreprise.com"
+                            style="width: 100%; background: none; border: none; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px; color: white; font-size: 16px;">
+                    </div>
+                    <div style="margin-bottom: 60px;">
+                        <label
+                            style="display: block; font-size: 11px; font-weight: 700; color: var(--cyan); letter-spacing: 0.1em; margin-bottom: 15px;">VOTRE
+                            PROJET</label>
+                        <textarea placeholder="Expliquez-nous vos besoins..."
+                            style="width: 100%; height: 120px; background: none; border: none; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px; color: white; font-size: 16px; resize: none;"></textarea>
+                    </div>
+                    <button
+                        style="background: white; color: black; border: none; padding: 22px 60px; border-radius: 100px; font-weight: 400; cursor: pointer; width: 100%;">Lancer
+                        ma demande →</button>
+                </section>
+                <div style="display: flex; flex-direction: column; gap: 24px;">
+                    <section class="glass-panel" style="padding: 50px; margin-bottom: 0; border-radius: 32px;">
+                        <h5 style="color: var(--cyan); margin-bottom: 15px; font-weight: 700; font-size: 11px;">NOS
+                            BUREAUX</h5>
+                        <p style="font-size: 20px;">Vallée Nlongkak, Yaoundé<br>Derrière Express Union Tsinga</p>
+                    </section>
+                    <section class="glass-panel" style="padding: 50px; margin-bottom: 0; border-radius: 32px;">
+                        <h5 style="color: var(--cyan); margin-bottom: 15px; font-weight: 700; font-size: 11px;">CONTACT
+                            DIRECT</h5>
+                        <p style="font-size: 24px; color: var(--cyan); font-weight: 500;">contact@aialab.com</p>
+                        <p style="opacity: 0.4;">+237 678 653 119</p>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="f-grid">
+                <div>
+                    <h2 style="font-size: 32px; font-weight: 100; letter-spacing: -2px; margin-bottom: 24px;">AIA <span
+                            style="color: var(--cyan);">LAB</span></h2>
+                    <p style="font-size: 14px; opacity: 0.5;">Le studio créatif qui donne vie à l'excellence digitale au
+                        Cameroun et au-delà.</p>
+                </div>
+                <div>
+                    <h5 style="margin-bottom: 24px; font-size: 12px; color: var(--cyan);">NAV</h5>
+                    <ul class="f-links">
+                        <li><a onclick="navTo('home')">Accueil</a></li>
+                        <li><a onclick="navTo('about')">À Propos</a></li>
+                        <li><a onclick="navTo('projects')">Portfolio</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 style="margin-bottom: 24px; font-size: 12px; color: var(--cyan);">SERVICES</h5>
+                    <ul class="f-links">
+                        <li><a>Branding</a></li>
+                        <li><a>Web Design</a></li>
+                        <li><a>Marketing</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 style="margin-bottom: 24px; font-size: 12px; color: var(--cyan);">LÉGAL</h5>
+                    <ul class="f-links">
+                        <li><a>Confidentialité</a></li>
+                        <li><a>Cookies</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div
+                style="margin-top: 100px; padding-top: 40px; border-top: none; font-size: 12px; opacity: 0.4;">
+                &copy; 2025 AIA LAB Studio. Excellence Digitale au Yaoundé.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function navTo(viewId, el) {
+            const bg = document.getElementById('master-bg');
+            bg.className = 'page-bg ' + (viewId === 'home' ? 'home' : 'internal');
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            setTimeout(() => {
+                const target = document.getElementById('view-' + viewId);
+                if (target) {
+                    target.classList.add('active');
+                    setTimeout(checkReveals, 100);
+                }
+            }, 300);
+            if (el) {
+                document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                el.classList.add('active');
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-revealed');
+                    if (entry.target.classList.contains('glass-panel')) {
+                        entry.target.classList.add('revealed');
+                    }
+                }
+            });
+        }, { threshold: 0.1 });
+
+        function checkReveals() {
+            document.querySelectorAll('.reveal, .glass-panel, .service-grid > div, .p-item, .domain-col, h1, h2, h3, .badge').forEach(el => revealObserver.observe(el));
+        }
+
+        // Bilingual Map
+        const i18n = {
+            fr: {
+                nav_home: "Accueil", nav_about: "L'Agence", nav_projects: "Projets", nav_contact: "Contact",
+                hero_badge: "AIA LAB — Studio de Design Premium", hero_title: "Design & <em>Performance.</em>",
+                hero_desc: "Nous créons des expériences digitales mémorables pour les marques ambitieuses qui redéfinissent leur futur avec force et clarté.",
+                hero_btn: "Lancer un projet", hero_btn_projects: "Explorer les réalisations",
+                home_contact_badge: "DISCUTONS ENSEMBLE", home_contact_title: "Prêt à donner vie à votre <em>prochain projet ?</em>",
+                home_contact_desc: "Que vous soyez une startup ou une entreprise établie, nous avons l'expertise pour vous faire grandir et rayonner.",
+                home_contact_btn: "Lancer la conversation",
+                stat_clients: "Clients", stat_projects: "Projets livrés", stat_years: "Ans d'expérience", stat_offices: "Agences",
+                agency_badge: "L'ÉXCELLENCE CRÉATIVE", agency_title: "Votre partenaire stratégique pour le <em>succès business.</em>",
+                about_intro_badge: "À PROPOS D'AIA LAB", about_intro_title: "Nous façonnons l'avenir des <em>marques influentes.</em>",
+                about_intro_p1: "Avec plus d'expertise cumulée à travers diverses industries, notre équipe dédiée s'engage à propulser votre croissance grâce à une excellence opérationnelle.",
+                about_intro_p2: "Nous nous spécialisons dans la livraison de solutions sur mesure qui génèrent des résultats tangibles. Nous transformons vos défis en opportunités.",
+                stat_satisfaction: "Satisfaction Client", stat_projects_long: "Projets Livrés avec Succès",
+                stat_years_long: "Années d'Expertise", stat_offices_long: "Agences Stratégiques",
+                port_master_title: "Notre <em>Portfolio de Master.</em>", port_master_desc: "Explorez nos projets à travers le branding, le web et la stratégie.",
+                filter_all: "Tous", filter_branding: "Branding", filter_web: "Web Design", filter_digital: "Digital"
+            },
+            en: {
+                nav_home: "Home", nav_about: "Agency", nav_projects: "Projects", nav_contact: "Contact",
+                hero_badge: "AIA LAB — Premium Design Studio", hero_title: "Design & <em>Performance.</em>",
+                hero_desc: "We create memorable digital experiences for ambitious brands redefining their future with strength and clarity.",
+                hero_btn: "Start a project", hero_btn_projects: "Explore our work",
+                home_contact_badge: "LET'S TALK", home_contact_title: "Ready to bring your <em>next project to life?</em>",
+                home_contact_desc: "Whether you are a startup or an established company, we have the expertise to make you grow and shine.",
+                home_contact_btn: "Start the conversation",
+                stat_clients: "Clients", stat_projects: "Delivered Projects", stat_years: "Years of Experience", stat_offices: "Agencies",
+                agency_badge: "CREATIVE EXCELLENCE", agency_title: "Your strategic partner for <em>business success.</em>",
+                about_intro_badge: "ABOUT AIA LAB", about_intro_title: "Shaping the future of <em>influential brands.</em>",
+                about_intro_p1: "With cumulative expertise across various industries, our dedicated team is committed to driving growth through creative excellence.",
+                about_intro_p2: "We specialize in delivering tailored solutions that drive tangible results. We turn your challenges into market opportunities.",
+                stat_satisfaction: "Customer Satisfaction", stat_projects_long: "Projects Delivered Successfully",
+                stat_years_long: "Years of Expertise", stat_offices_long: "Strategic Agencies",
+                port_master_title: "Our <em>Master Portfolio.</em>", port_master_desc: "Explore our projects across branding, web, and strategy.",
+                filter_all: "All", filter_branding: "Branding", filter_web: "Web Design", filter_digital: "Digital"
+            }
+        };
+
+        function setLang(lang) {
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (i18n[lang][key]) el.innerHTML = i18n[lang][key];
+            });
+            document.getElementById('l-fr').className = lang === 'fr' ? 'active' : '';
+            document.getElementById('l-en').className = lang === 'en' ? 'active' : '';
+        }
+
+        window.onload = () => {
+            checkReveals();
+        };
+
+        function filterProjects(cat, btn) {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const items = document.querySelectorAll('#master-portfolio-slider .p-item');
+            items.forEach(item => {
+                const itemCat = item.getAttribute('data-cat');
+                if (cat === 'all' || itemCat === cat) {
+                    item.classList.remove('hidden');
+                } else {
+                    item.classList.add('hidden');
+                }
+            });
+        }
+
+        // MOUSE HALO LOGIC
+        const halo = document.getElementById('halo');
+        document.addEventListener('mousemove', (e) => {
+            halo.style.left = e.clientX + 'px';
+            halo.style.top = e.clientY + 'px';
+        });
+
+        // ENHANCED SITE-WIDE PARALLAX
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const winH = window.innerHeight;
+
+            // 1. Background Atmosphere Parallax
+            const bg = document.getElementById('master-bg');
+            if (bg) {
+                // Subtle slow float for the background
+                bg.style.transform = `translateY(${scrolled * 0.15}px) scale(1.1)`;
+            }
+
+            // 2. Hero Background Parallax
+            const hero = document.querySelector('.hero-master');
+            if (hero && hero.style.opacity !== "0") {
+                hero.style.backgroundPositionY = `${scrolled * 0.4}px`;
+            }
+
+            // 3. Section Parallax (Glass Panels)
+            document.querySelectorAll('.glass-panel.revealed').forEach((panel, index) => {
+                const rect = panel.getBoundingClientRect();
+                const speed = 0.08; 
+                
+                // Calculate position relative to viewport center
+                const centerOffset = (rect.top + rect.height / 2) - (winH / 2);
+                const movement = centerOffset * speed;
+                
+                // Apply subtle shift
+                panel.style.transform = `translateY(${movement * -1}px)`;
+            });
+
+            // 4. Parallax for Portfolio Items
+            document.querySelectorAll('.p-item').forEach((item, index) => {
+                const rect = item.getBoundingClientRect();
+                if (rect.top < winH && rect.bottom > 0) {
+                    const speed = 0.05;
+                    const movement = (rect.top - winH) * speed;
+                    item.style.transform = `translateY(${movement}px)`;
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
