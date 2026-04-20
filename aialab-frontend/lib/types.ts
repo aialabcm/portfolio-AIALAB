@@ -8,9 +8,12 @@ export interface ProjectDetails {
   categorieProjet: string;
   nomDuClient: string;
   dateLivraison: string;
+  lienDuProjet?: string;
+  contexteMission?: string;
   image1?: ImageNode;
   image2?: ImageNode;
   image3?: ImageNode;
+  image4?: ImageNode;
 }
 
 export interface Project {
@@ -23,7 +26,7 @@ export interface Project {
 export interface ServiceDetails {
   iconeSvg: string;
   descriptionCourte: string;
-  ordreAffichage: number;
+  ordreDaffichage: number;
 }
 
 export interface Service {

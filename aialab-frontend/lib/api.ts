@@ -1,9 +1,15 @@
 import { Project, Service } from "./types";
 
-const WP_GRAPHQL_URL = process.env.NEXT_PUBLIC_WP_GRAPHQL_URL || 'https://cms.aialabcmr.com/graphql';
+const WP_GRAPHQL_URL = process.env.NEXT_PUBLIC_WP_GRAPHQL_URL;
+
+if (!WP_GRAPHQL_URL) {
+  throw new Error('NEXT_PUBLIC_WP_GRAPHQL_URL is not defined in environment variables');
+}
+
+const endpoint: string = WP_GRAPHQL_URL;
 
 export async function fetchGraphQL(query: string, variables = {}) {
-  const res = await fetch(WP_GRAPHQL_URL, {
+  const res = await fetch(endpoint, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -15,7 +21,7 @@ export async function fetchGraphQL(query: string, variables = {}) {
   const json = await res.json();
 
   if (json.errors) {
-    console.error(json.errors);
+    console.error(JSON.stringify(json.errors, null, 2));
     throw new Error('GraphQL Error');
   }
 
@@ -34,24 +40,31 @@ export const GET_PROJETS = `
           }
         }
         deTailsProjet {
-          categorieProjet
+          categorieProjet: categorieDuProjet
           nomDuClient
-          dateLivraison
+          dateLivraison: datelivraison
+          lienDuProjet: lienduprojet
+          contexteMission: contextemission
           image1 {
             node {
               sourceUrl
             }
           }
-          image2 {
-            node {
-              sourceUrl
-            }
-          }
-          image3 {
-            node {
-              sourceUrl
-            }
-          }
+          # image2 {
+          #   node {
+          #     sourceUrl
+          #   }
+          # }
+          # image3 {
+          #   node {
+          #     sourceUrl
+          #   }
+          # }
+          # image4 {
+          #   node {
+          #     sourceUrl
+          #   }
+          # }
         }
       }
     }
@@ -69,24 +82,31 @@ export const GET_PROJET_BY_SLUG = `
         }
       }
       deTailsProjet {
-        categorieProjet
+        categorieProjet: categorieDuProjet
         nomDuClient
-        dateLivraison
+        dateLivraison: datelivraison
+        lienDuProjet: lienduprojet
+        contexteMission: contextemission
         image1 {
           node {
             sourceUrl
           }
         }
-        image2 {
-          node {
-            sourceUrl
-          }
-        }
-        image3 {
-          node {
-            sourceUrl
-          }
-        }
+        # image2 {
+        #   node {
+        #     sourceUrl
+        #   }
+        # }
+        # image3 {
+        #   node {
+        #     sourceUrl
+        #   }
+        # }
+        # image4 {
+        #   node {
+        #     sourceUrl
+        #   }
+        # }
       }
     }
   }
@@ -98,9 +118,9 @@ export const GET_SERVICES = `
       nodes {
         title
         deTailsService {
-          iconeSvg
+          iconeSvg: iconesvg
           descriptionCourte
-          ordreAffichage
+          ordreDaffichage: ordredaffichage
         }
       }
     }

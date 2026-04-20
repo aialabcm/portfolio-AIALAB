@@ -38,7 +38,8 @@
   },
   "contact": {
     "cta_title": "Prêt à donner vie à votre <em>prochain projet ?</em>",
-    "cta_btn": "Lancer la conversation"
+    "cta_btn": "Lancer la conversation",
+    "form_title": "Commençons quelque chose de <em>grand.</em>"
   },
   "footer": {
     "copyright": "© 2025 AIA LAB Studio. Excellence Digitale au Cameroun."

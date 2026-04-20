@@ -5,6 +5,7 @@ import { getProjectBySlug } from "@/lib/api";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import ContactForm from "@/components/sections/ContactForm";
+import { Link } from "@/navigation";
 
 export default async function ProjectDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -18,14 +19,21 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
   const dateLivraison = details.dateLivraison || "";
   const client = details.nomDuClient || "Confidentiel";
 
-  const images = [details.image1?.node?.sourceUrl, details.image2?.node?.sourceUrl, details.image3?.node?.sourceUrl].filter(Boolean) as string[];
+  const images = [
+    details.image1?.node?.sourceUrl
+  ].filter(Boolean) as string[];
 
   return (
     <main>
       <Navbar />
       
       {/* Immersive Header */}
-      <section className="hero-master" style={{ height: '70vh', minHeight: 'auto' }}>
+      <section className="hero-master loaded" style={{ height: '70vh', minHeight: 'auto', background: 'var(--bg)' }}>
+        <div style={{ position: 'absolute', top: 'var(--s-4xl)', left: 'var(--s-xl)', zIndex: 100 }}>
+           <Link href="/projects" className="link-underlined" style={{ color: 'var(--white)', opacity: 0.8 }}>
+             ← Retour aux projets
+           </Link>
+        </div>
         <Image 
           src={imageUrl} 
           alt={project.title} 
@@ -33,12 +41,12 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
           style={{ objectFit: 'cover' }}
           priority
         />
-        <div className="p-over" style={{ background: 'linear-gradient(to top, var(--bg), transparent)' }} />
-        <div className="hero-panel">
-          <span className="reveal" style={{ color: 'var(--cyan)', letterSpacing: '0.2em', fontSize: '12px', textTransform: 'uppercase' }}>
+        <div className="p-over" style={{ background: 'linear-gradient(to top, var(--bg) 0%, transparent 100%)', opacity: 0.8 }} />
+        <div className="hero-panel" style={{ position: 'relative', zIndex: 10 }}>
+          <span className="reveal is-revealed" style={{ color: 'var(--cyan)', letterSpacing: '0.2em', fontSize: '12px', textTransform: 'uppercase' }}>
             {category} {dateLivraison && `— ${dateLivraison}`}
           </span>
-          <h1 className="reveal">{project.title}</h1>
+          <h1 className="reveal is-revealed" style={{ marginTop: 'var(--s-md)' }}>{project.title}</h1>
         </div>
       </section>
 
@@ -48,7 +56,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
           <div className="flex-split">
             <div>
               <h3>Le <em>Challenge.</em></h3>
-              <p>Ce projet s'inscrit dans notre volonté de livrer des interfaces d'exception et une expérience de pointe.</p>
+              <p>Ce projet s&apos;inscrit dans notre volonté de livrer des interfaces d&apos;exception et une expérience de pointe.</p>
             </div>
             <div className="glass-card">
               <h4 style={{ marginBottom: '20px' }}>Détails du projet</h4>
@@ -81,8 +89,10 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
           </div>
         )}
         
-        <div style={{ marginTop: '80px' }}>
-           <ContactForm />
+        <div style={{ marginTop: 'var(--s-4xl)' }}>
+           <RevealWrapper component="section" className="glass-panel">
+              <ContactForm />
+           </RevealWrapper>
         </div>
       </div>
 

@@ -13,9 +13,9 @@ export default function Footer() {
       <div className="container">
         <div className="f-grid">
           <div>
-            <h2 style={{ fontSize: '32px', fontWeight: 100, letterSpacing: '-2px', marginBottom: '24px' }}>
-              AIA <span style={{ color: 'var(--cyan)' }}>LAB</span>
-            </h2>
+            <Link href="/" style={{ display: 'inline-block', marginBottom: '24px' }}>
+              <img src="/images/logo.png" alt="AIA LAB Logo" style={{ height: '60px', width: 'auto' }} />
+            </Link>
             <p style={{ fontSize: '14px', opacity: 0.5 }}>
               Le studio créatif qui donne vie à l&apos;excellence digitale au Cameroun et au-delà.
             </p>

@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import { useReveal } from "@/lib/hooks/useReveal";
 
 interface ServiceCardProps {
   title: string;
@@ -8,19 +10,18 @@ interface ServiceCardProps {
 }
 
 export default function ServiceCard({ title, description, icon, className }: ServiceCardProps) {
+  const { ref, isRevealed } = useReveal();
+
   return (
-    <div className={`s-card reveal ${className || ""}`}>
+    <div ref={ref} className={`glass-card reveal ${isRevealed ? 'is-revealed' : ''} ${className || ""}`}>
       {icon && (
-        <div className="s-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-            {/* Simple Dynamic Icon placeholder logic or hardcoded for now */}
-            <circle cx="12" cy="12" r="10" />
-            <path d={icon} />
-          </svg>
-        </div>
+        <div 
+          style={{ marginBottom: '24px', width: '48px', height: '48px', color: 'var(--cyan)' }}
+          dangerouslySetInnerHTML={{ __html: icon }}
+        />
       )}
-      <h4>{title}</h4>
-      <p>{description}</p>
+      <h4 style={{ marginBottom: '15px', fontWeight: 400 }}>{title}</h4>
+      <p style={{ fontSize: '14px', opacity: 0.6 }}>{description}</p>
     </div>
   );
 }

@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import ProjectCard from "@/components/ui/ProjectCard";
 import { Project } from "@/lib/types";
 import { useTranslations } from "next-intl";
+import { useReveal } from "@/lib/hooks/useReveal";
 
 interface ProjectsGridProps {
   projects: Project[];
@@ -12,6 +13,7 @@ interface ProjectsGridProps {
 export default function ProjectsGrid({ projects }: ProjectsGridProps) {
   const t = useTranslations("projects");
   const [filter, setFilter] = useState("all");
+  const { ref, isRevealed } = useReveal();
 
   const categories = ["all", "branding", "web", "digital"];
 
@@ -20,7 +22,8 @@ export default function ProjectsGrid({ projects }: ProjectsGridProps) {
     : projects.filter(p => (p.deTailsProjet?.categorieProjet || "").toLowerCase().includes(filter));
 
   return (
-    <div className="glass-panel revealed">
+    <>
+      {/* FILTER MENU */}
       <div className="filter-bar">
         {categories.map((cat) => (
           <button
@@ -33,11 +36,12 @@ export default function ProjectsGrid({ projects }: ProjectsGridProps) {
         ))}
       </div>
 
-      <div className="slider-wrap" style={{ flexWrap: 'wrap', overflow: 'visible' }}>
+      {/* MASTER SLIDER */}
+      <div className="slider-wrap" id="master-portfolio-slider">
         {filteredProjects.map((project) => (
           <ProjectCard key={project.slug} project={project} />
         ))}
       </div>
-    </div>
+    </>
   );
 }

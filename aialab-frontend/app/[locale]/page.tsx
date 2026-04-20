@@ -3,12 +3,12 @@ import Footer from "@/components/layout/Footer";
 import Hero from "@/components/sections/Hero";
 import AboutStrip from "@/components/sections/AboutStrip";
 import Services from "@/components/sections/Services";
-import ProjectsGrid from "@/components/sections/ProjectsGrid";
-import ContactForm from "@/components/sections/ContactForm";
-import { getProjects } from "@/lib/api";
+import ProjectSlider from "@/components/sections/ProjectSlider";
+import ContactCTA from "@/components/sections/ContactCTA";
+import { getProjects, getServices } from "@/lib/api";
 
 export default async function Home() {
-  const projects = await getProjects();
+  const [projects, services] = await Promise.all([getProjects(), getServices()]);
 
   return (
     <main>
@@ -16,10 +16,9 @@ export default async function Home() {
       <Hero />
       <div className="container">
         <AboutStrip />
-        <Services />
-        {/* On the home page, we can pass a subset or just use the grid component */}
-        <ProjectsGrid projects={projects} />
-        <ContactForm />
+        <Services services={services} />
+        <ProjectSlider projects={projects} />
+        <ContactCTA />
       </div>
       <Footer />
     </main>
