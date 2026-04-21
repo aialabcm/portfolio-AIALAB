@@ -3,12 +3,17 @@ import { Project, Service } from "./types";
 const WP_GRAPHQL_URL = process.env.NEXT_PUBLIC_WP_GRAPHQL_URL;
 
 if (!WP_GRAPHQL_URL) {
-  throw new Error('NEXT_PUBLIC_WP_GRAPHQL_URL is not defined in environment variables');
+  console.warn('WARNING: NEXT_PUBLIC_WP_GRAPHQL_URL is not defined. CMS data will not be available.');
 }
 
-const endpoint: string = WP_GRAPHQL_URL;
+const endpoint: string = WP_GRAPHQL_URL || '';
 
 export async function fetchGraphQL(query: string, variables = {}) {
+  if (!endpoint) {
+    console.error('fetchGraphQL called but NEXT_PUBLIC_WP_GRAPHQL_URL is missing.');
+    return null;
+  }
+
   const res = await fetch(endpoint, {
     method: 'POST',
     headers: {

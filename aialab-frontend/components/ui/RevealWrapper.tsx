@@ -19,14 +19,15 @@ export default function RevealWrapper({
   style: initialStyle
 }: RevealWrapperProps) {
   const { ref, isRevealed } = useReveal();
-  const [hasMounted, setHasMounted] = React.useState(false);
+  const [mounted, setMounted] = React.useState(false);
 
   React.useEffect(() => {
-    setHasMounted(true);
+    setMounted(true);
   }, []);
   
-  const showReveal = hasMounted && isRevealed;
-  const combinedClassName = `${className} ${showReveal ? 'is-revealed revealed' : ''}`.trim();
+  // No reveal during hydration to avoid mismatch
+  const showReveal = mounted && isRevealed;
+  const combinedClassName = `${className} ${showReveal ? "is-revealed revealed" : ""}`.trim();
   const combinedStyle = { ...initialStyle, transitionDelay: delay };
 
   return (
