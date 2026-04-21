@@ -19,6 +19,8 @@ export default function Services({ services }: ServicesProps) {
     (a.deTailsService?.ordreDaffichage || 0) - (b.deTailsService?.ordreDaffichage || 0)
   );
 
+  if (sortedServices.length === 0) return null;
+
   useEffect(() => {
     const slider = sliderRef.current;
     if (!slider || window.innerWidth > 1100) return;

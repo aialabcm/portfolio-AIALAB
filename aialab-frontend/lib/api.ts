@@ -14,23 +14,44 @@ export async function fetchGraphQL(query: string, variables = {}) {
     return null;
   }
 
-  const res = await fetch(endpoint, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ query, variables }),
-    next: { revalidate: 60 },
-  });
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 3000);
 
-  const json = await res.json();
+  try {
+    const res = await fetch(endpoint, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ query, variables }),
+      next: { revalidate: 60 },
+      signal: controller.signal,
+    });
 
-  if (json.errors) {
-    console.error(JSON.stringify(json.errors, null, 2));
-    throw new Error('GraphQL Error');
+    clearTimeout(timeoutId);
+
+    if (!res.ok) {
+      console.error(`GraphQL fetch failed with status ${res.status}`);
+      return null;
+    }
+
+    const json = await res.json();
+
+    if (json.errors) {
+      console.error(JSON.stringify(json.errors, null, 2));
+      return null; 
+    }
+
+    return json.data;
+  } catch (error: any) {
+    clearTimeout(timeoutId);
+    if (error.name === 'AbortError') {
+      console.error('GraphQL fetch timed out after 3 seconds.');
+    } else {
+      console.error('GraphQL fetch error:', error.message);
+    }
+    return null;
   }
-
-  return json.data;
 }
 
 export const GET_PROJETS = `

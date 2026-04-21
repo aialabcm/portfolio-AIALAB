@@ -16,6 +16,8 @@ export default function ProjectSlider({ projects }: ProjectSliderProps) {
   const { ref, isRevealed } = useReveal();
   const sliderRef = useRef<HTMLDivElement>(null);
 
+  if (!projects || projects.length === 0) return null;
+
   useEffect(() => {
     const slider = sliderRef.current;
     if (!slider) return;
