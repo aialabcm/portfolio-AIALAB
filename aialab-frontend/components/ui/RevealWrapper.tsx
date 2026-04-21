@@ -7,7 +7,7 @@ interface RevealWrapperProps {
   children: React.ReactNode;
   className?: string;
   delay?: string;
-  component?: keyof JSX.IntrinsicElements;
+  component?: React.ElementType;
   style?: React.CSSProperties;
 }
 
@@ -19,12 +19,17 @@ export default function RevealWrapper({
   style: initialStyle
 }: RevealWrapperProps) {
   const { ref, isRevealed } = useReveal();
+  const [hasMounted, setHasMounted] = React.useState(false);
+
+  React.useEffect(() => {
+    setHasMounted(true);
+  }, []);
   
-  const combinedClassName = `${className} ${isRevealed ? 'is-revealed revealed' : ''}`.trim();
+  const showReveal = hasMounted && isRevealed;
+  const combinedClassName = `${className} ${showReveal ? 'is-revealed revealed' : ''}`.trim();
   const combinedStyle = { ...initialStyle, transitionDelay: delay };
 
   return (
-    // @ts-ignore
     <Component ref={ref} className={combinedClassName} style={combinedStyle}>
       {children}
     </Component>

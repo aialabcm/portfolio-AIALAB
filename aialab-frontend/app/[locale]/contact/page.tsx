@@ -4,10 +4,10 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import ContactForm from "@/components/sections/ContactForm";
 import RevealWrapper from "@/components/ui/RevealWrapper";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 
 export default function ContactPage() {
-  const bentoVariants = {
+  const bentoVariants: Variants = {
     hidden: { opacity: 0, y: 30 },
     visible: (i: number) => ({
       opacity: 1,
@@ -15,7 +15,7 @@ export default function ContactPage() {
       transition: {
         delay: 0.1 * i,
         duration: 0.8,
-        ease: "easeOut",
+        ease: [0.16, 1, 0.3, 1],
       },
     }),
   };

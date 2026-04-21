@@ -53,7 +53,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
       style={{ perspective: 1000 }}
       initial={{ opacity: 0, y: 20 }}
       animate={isRevealed ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] as any }}
     >
       <Link 
         ref={cardRef} 

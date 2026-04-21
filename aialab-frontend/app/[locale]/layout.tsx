@@ -20,8 +20,6 @@ export const metadata: Metadata = {
   },
 };
 
-import MasterLoader from "@/components/ui/MasterLoader";
-
 export default async function RootLayout({
   children,
   params
