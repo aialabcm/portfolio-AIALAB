@@ -75,7 +75,9 @@ export default function Navbar() {
 
           {/* Mobile Logo Placeholder or just center */}
           <div className="mobile-only logo-small">
-             <Link href="/" onClick={() => setIsMenuOpen(false)}>AIA LAB</Link>
+             <Link href="/" onClick={() => setIsMenuOpen(false)}>
+               <span className="text-gradient-aia">AIA</span> LAB
+             </Link>
           </div>
 
           {/* Mobile Menu Trigger */}
