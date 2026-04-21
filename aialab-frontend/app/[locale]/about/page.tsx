@@ -5,6 +5,7 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { useTranslations } from "next-intl";
 import RevealWrapper from "@/components/ui/RevealWrapper";
+import Counter from "@/components/ui/Counter";
 
 export default function AboutPage() {
   const t = useTranslations("about");
@@ -46,7 +47,7 @@ export default function AboutPage() {
   return (
     <main>
       <Navbar />
-      <div className="container" style={{ padding: 'clamp(120px, 15vh, 200px) var(--s-md) 100px' }}>
+      <div className="container" style={{ paddingTop: 'clamp(120px, 15vh, 200px)', paddingBottom: '100px' }}>
 
         {/* CINEMATIC HEADER */}
         <section style={{ textAlign: 'center', marginBottom: 'clamp(60px, 10vh, 120px)' }}>
@@ -59,13 +60,15 @@ export default function AboutPage() {
         <div style={{ marginBottom: 'clamp(60px, 10vh, 120px)' }}>
           <div style={{ display: 'flex', justifyContent: 'center', gap: 'clamp(30px, 5vw, 100px)', flexWrap: 'wrap', alignItems: 'center' }}>
             {[
-              { val: '+100', lbl: 'Clients' },
-              { val: '+100', lbl: 'Projets livrés' },
-              { val: '+03', lbl: "Ans d'expérience" },
-              { val: '2', lbl: 'Agences' },
+              { val: 100, lbl: 'Clients', pre: '+', suf: '' },
+              { val: 500, lbl: 'Projets livrés', pre: '+', suf: '' },
+              { val: 3, lbl: "Ans d'expérience", pre: '+', suf: '' },
+              { val: 2, lbl: 'Agences', pre: '', suf: '' },
             ].map((s, i) => (
               <RevealWrapper key={i} className="reveal" style={{ textAlign: 'center', minWidth: '140px' }}>
-                <h4 style={{ fontSize: 'clamp(32px, 5vw, 48px)', fontWeight: 300, color: 'var(--cyan)', marginBottom: '5px' }}>{s.val}</h4>
+                <h4 style={{ fontSize: 'clamp(32px, 5vw, 48px)', fontWeight: 300, color: 'var(--cyan)', marginBottom: '5px' }}>
+                  <Counter value={s.val} prefix={s.pre} suffix={s.suf} />
+                </h4>
                 <p style={{ fontSize: '10px', opacity: 0.4, textTransform: 'uppercase', letterSpacing: '0.2em', fontWeight: 300, margin: 0 }}>{s.lbl}</p>
               </RevealWrapper>
             ))}
@@ -106,13 +109,15 @@ export default function AboutPage() {
 
           <div className="stat-bar-row" ref={statsRef}>
             {[
-              { val: '98%', lbl: 'Satisfaction Client' },
-              { val: '100+', lbl: 'Projets Livrés avec Succès' },
-              { val: '+03', lbl: "Années d'Expertise" },
-              { val: '2', lbl: 'Agences Stratégiques' },
+              { val: 98, lbl: 'Satisfaction Client', pre: '', suf: '%' },
+              { val: 500, lbl: 'Projets Livrés avec Succès', pre: '', suf: '+' },
+              { val: 3, lbl: "Années d'Expertise", pre: '+', suf: '' },
+              { val: 2, lbl: 'Agences Stratégiques', pre: '', suf: '' },
             ].map((s, i) => (
               <div key={i} className="stat-bar-item stagger-item">
-                <div className="stat-bar-val">{s.val}</div>
+                <div className="stat-bar-val">
+                  <Counter value={s.val} prefix={s.pre} suffix={s.suf} />
+                </div>
                 <div className="stat-bar-lbl">{s.lbl}</div>
               </div>
             ))}

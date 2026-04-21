@@ -12,7 +12,7 @@ export default async function ProjectsPage() {
   return (
     <main>
       <Navbar />
-      <div className="container" style={{ padding: '180px 0 100px' }}>
+      <div className="container" style={{ paddingTop: '180px', paddingBottom: '100px' }}>
         <RevealWrapper component="section" className="glass-panel" style={{ paddingTop: 0 }}>
           <h2 style={{ marginBottom: '24px' }}>
             {t.rich("page_title", {

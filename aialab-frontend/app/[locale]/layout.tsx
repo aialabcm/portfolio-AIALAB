@@ -1,15 +1,14 @@
 import type { Metadata } from "next";
-import { Roboto } from "next/font/google";
+import { Inter } from "next/font/google";
 import "../../globals.css";
 import MouseHalo from "@/components/ui/MouseHalo";
 import RevealObserver from "@/components/layout/RevealObserver";
 import {NextIntlClientProvider} from 'next-intl';
 import {getMessages} from 'next-intl/server';
 
-const roboto = Roboto({
-  weight: ["100", "300", "400", "500", "700", "900"],
+const inter = Inter({
   subsets: ["latin"],
-  variable: "--font-roboto",
+  variable: "--font-inter",
   display: "swap",
 });
 
@@ -20,6 +19,8 @@ export const metadata: Metadata = {
     icon: "/images/logo.png",
   },
 };
+
+import MasterLoader from "@/components/ui/MasterLoader";
 
 export default async function RootLayout({
   children,
@@ -32,10 +33,12 @@ export default async function RootLayout({
   const messages = await getMessages();
 
   return (
-    <html lang={locale} className={roboto.variable}>
+    <html lang={locale} className={inter.variable}>
       <body>
         <NextIntlClientProvider messages={messages}>
           <div className="page-bg home" id="master-bg" />
+          <div className="bg-blob blob-1" />
+          <div className="bg-blob blob-2" />
           <MouseHalo />
           <RevealObserver />
           {children}

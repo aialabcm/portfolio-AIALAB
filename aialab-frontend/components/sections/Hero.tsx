@@ -8,20 +8,26 @@ import { useReveal } from "@/lib/hooks/useReveal";
 export default function Hero() {
   const t = useTranslations("hero");
   const { ref, isRevealed } = useReveal();
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [hasMounted, setHasMounted] = useState(false);
 
   useEffect(() => {
-    setIsLoaded(true);
+    setHasMounted(true);
   }, []);
 
+  // Ensure reveal classes only apply after mounting to prevent hydration mismatch
+  const showReveal = hasMounted && isRevealed;
+
   return (
-    <section ref={ref} className={`hero-master ${isLoaded ? 'loaded' : ''}`} style={{ marginBottom: 'var(--s-2xl)' }}>
-      <div className="hero-panel" style={{ padding: 'var(--s-4xl) var(--s-3xl) 0' }}>
-        <h1 className={`reveal ${isRevealed ? 'is-revealed' : ''}`}>{t("title1")} <em>{t("title2")}</em></h1>
-        <p className={`reveal ${isRevealed ? 'is-revealed' : ''}`} style={{ transitionDelay: '0.2s', marginBottom: 'var(--s-3xl)' }}>
+    <section ref={ref} className={`hero-master ${hasMounted ? 'loaded' : ''}`}>
+      <div className="hero-panel">
+        <h1 className={`reveal ${showReveal ? 'is-revealed' : ''}`}>
+          {t("title1")} <br />
+          <em>{t("title2")}</em>
+        </h1>
+        <p className={`reveal ${showReveal ? 'is-revealed' : ''}`} style={{ transitionDelay: '0.2s' }}>
           {t("desc")}
         </p>
-        <div className={`hero-links reveal ${isRevealed ? 'is-revealed' : ''}`} style={{ transitionDelay: '0.4s', gap: 'var(--s-xl)' }}>
+        <div className={`hero-links reveal ${showReveal ? 'is-revealed' : ''}`} style={{ transitionDelay: '0.4s' }}>
           <Link href="/projects" className="link-underlined">{t("btn_projects")}</Link>
           <Link href="/contact" className="link-underlined">{t("btn_start")}</Link>
         </div>

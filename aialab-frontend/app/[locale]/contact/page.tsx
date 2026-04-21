@@ -4,40 +4,117 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import ContactForm from "@/components/sections/ContactForm";
 import RevealWrapper from "@/components/ui/RevealWrapper";
+import { motion } from "framer-motion";
 
 export default function ContactPage() {
+  const bentoVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: (i: number) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        delay: 0.1 * i,
+        duration: 0.8,
+        ease: [0.16, 1, 0.3, 1],
+      },
+    }),
+  };
+
   return (
     <main>
       <Navbar />
-      <div className="container" style={{ padding: 'clamp(140px, 15vh, 200px) var(--s-md) 100px' }}>
+      
+      {/* ATMOSPHERIC BACKGROUND BLOB */}
+      <div className="bg-blob" style={{ top: '20%', left: '50%', transform: 'translateX(-50%)', opacity: 0.1, width: '80vw', height: '80vw' }} />
+
+      <div className="container" style={{ paddingTop: 'clamp(120px, 15vh, 180px)', paddingBottom: '100px', position: 'relative' }}>
         
-        <div className="contact-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(380px, 1fr))', gap: 'var(--s-xl)', alignItems: 'stretch' }}>
+        {/* HERO SECTION */}
+        <section style={{ textAlign: 'center', marginBottom: 'clamp(60px, 10vh, 100px)' }}>
+          <RevealWrapper>
+            <h1 style={{ fontSize: 'clamp(40px, 8vw, 88px)', fontWeight: 300, lineHeight: 1.1, marginBottom: '24px' }}>
+              Parlons de votre <em style={{ fontStyle: 'normal', fontWeight: 400, color: 'var(--cyan)' }}>prochain projet.</em>
+            </h1>
+            <p style={{ margin: '0 auto', opacity: 0.6 }}>
+              Que vous ayez une idée précise ou un concept encore flou, notre équipe est là pour transformer vos ambitions en réalité digitale.
+            </p>
+          </RevealWrapper>
+        </section>
+
+        {/* BENTO GRID */}
+        <div className="bento-grid">
           
-          {/* CARD 1: FORM */}
-          <RevealWrapper className="glass-card" style={{ padding: 'var(--s-2xl)', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+          {/* FORM CARD (Large) */}
+          <motion.div 
+            custom={1}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={bentoVariants}
+            className="glass-card col-span-2 row-span-2" 
+            style={{ padding: 'clamp(24px, 5vw, 60px)' }}
+          >
             <ContactForm />
-          </RevealWrapper>
+          </motion.div>
 
-          {/* CARD 2: INFO */}
-          <RevealWrapper className="glass-card" style={{ padding: 'var(--s-2xl)', height: '100%', display: 'flex', flexDirection: 'column', gap: 'var(--s-xl)' }}>
+          {/* OFFICE CARD */}
+          <motion.div 
+            custom={2}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={bentoVariants}
+            className="glass-card bento-card"
+          >
             <div>
-               <h5 style={{ color: 'var(--cyan)', marginBottom: '15px', fontWeight: 700, fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.2em' }}>Nos Bureaux</h5>
-               <p style={{ fontSize: 'clamp(18px, 4vw, 22px)', lineHeight: 1.4 }}>Vallée Nlongkak, Yaoundé<br />Derrière Express Union Tsinga</p>
+              <h5 className="contact-label">Nos Bureaux</h5>
+              <p style={{ fontSize: '20px', lineHeight: 1.4, fontWeight: 300 }}>
+                Vallée Nlongkak, Yaoundé<br />
+                Tsinga, Cameroun
+              </p>
             </div>
+            <a href="https://maps.google.com" target="_blank" rel="noopener noreferrer" className="link-underlined">
+              Itinéraire →
+            </a>
+          </motion.div>
 
-            <div style={{ padding: 'var(--s-xl) 0', borderTop: '1px solid rgba(255,255,255,0.05)', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
-               <h5 style={{ color: 'var(--cyan)', marginBottom: '15px', fontWeight: 700, fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.2em' }}>Contact Direct</h5>
-               <p style={{ fontSize: 'clamp(20px, 5vw, 28px)', color: 'var(--cyan)', fontWeight: 500, wordBreak: 'break-all' }}>contact@aialab.com</p>
-               <p style={{ opacity: 0.6, fontSize: '18px', marginTop: '10px' }}>+237 678 653 119</p>
+          {/* EMAIL CARD */}
+          <motion.div 
+            custom={3}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={bentoVariants}
+            className="glass-card bento-card"
+          >
+            <div>
+              <h5 className="contact-label">Contact Direct</h5>
+              <p style={{ fontSize: '22px', color: 'var(--cyan)', fontWeight: 400, wordBreak: 'break-all' }}>
+                contact@aialab.com
+              </p>
             </div>
+            <p style={{ opacity: 0.5, fontSize: '14px' }}>Nous répondons généralement en moins de 24h.</p>
+          </motion.div>
 
-            <div style={{ marginTop: 'auto' }}>
-               <p style={{ fontSize: '14px', opacity: 0.4, lineHeight: 1.6 }}>
-                 Notre équipe est à votre disposition du Lundi au Vendredi, de 08h00 à 18h00. <br />
-                 Pour les urgences techniques, nos clients sous contrat bénéficient d&apos;un support 24/7.
-               </p>
+          {/* SOCIAL/TELEPHONE CARD */}
+          <motion.div 
+            custom={4}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={bentoVariants}
+            className="glass-card bento-card"
+            style={{ flexDirection: 'row', alignItems: 'center', gap: '20px' }}
+          >
+            <div style={{ flex: 1 }}>
+              <h5 className="contact-label">Téléphone</h5>
+              <p style={{ fontSize: '18px', fontWeight: 300 }}>+237 678 653 119</p>
             </div>
-          </RevealWrapper>
+            <div style={{ display: 'flex', gap: '15px' }}>
+              <div style={{ width: '40px', height: '40px', borderRadius: '50%', border: '1px solid var(--glass-border)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px' }}>IN</div>
+              <div style={{ width: '40px', height: '40px', borderRadius: '50%', border: '1px solid var(--glass-border)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px' }}>BE</div>
+            </div>
+          </motion.div>
 
         </div>
       </div>
@@ -45,3 +122,4 @@ export default function ContactPage() {
     </main>
   );
 }
+
