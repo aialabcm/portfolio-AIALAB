@@ -65,7 +65,7 @@ export default function ContactForm() {
             type="text" 
             name="name" 
             className="contact-input" 
-            placeholder="Jean Dupont"
+            placeholder=""
             required 
           />
         </motion.div>
@@ -76,7 +76,7 @@ export default function ContactForm() {
             type="email" 
             name="email" 
             className="contact-input" 
-            placeholder="jean@entreprise.com"
+            placeholder=""
             required 
           />
         </motion.div>
@@ -86,7 +86,7 @@ export default function ContactForm() {
           <textarea 
             name="message" 
             className="contact-input" 
-            placeholder="Décrivez votre vision..."
+            placeholder=""
             style={{ height: '120px', resize: 'none' }} 
             required 
           />

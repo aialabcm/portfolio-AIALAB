@@ -19,45 +19,32 @@ export default function AboutStrip() {
   const showReveal = hasMounted && isRevealed;
 
   return (
-    <section ref={ref} className={`glass-panel ${showReveal ? 'revealed is-revealed' : ''}`} style={{ padding: 'var(--s-4xl) 0' }}>
-      <div className="flex-split">
-        <div>
-          <h2 className={`reveal ${showReveal ? 'is-revealed' : ''}`}>Nous donnons forme à <em className="text-cyan">vos ambitions.</em></h2>
-          <p style={{ marginBottom: 'var(--s-2xl)' }}>
-            {t("desc")}
-          </p>
-          <div style={{ display: 'flex', gap: 'var(--s-3xl)' }}>
-            <div>
-              <h4 style={{ fontSize: '56px', fontWeight: 100, color: 'var(--cyan)' }}>
-                <Counter value={500} prefix="+" />
-              </h4>
-              <p className="stat-bar-lbl">Projets livrés</p>
-            </div>
-            <div>
-              <h4 style={{ fontSize: '56px', fontWeight: 100, color: 'var(--cyan)' }}>
-                <Counter value={3} suffix="+" />
-              </h4>
-              <p className="stat-bar-lbl">Ans d&apos;excellence</p>
-            </div>
+    <section ref={ref} className={`glass-panel ${showReveal ? 'revealed is-revealed' : ''}`} style={{ padding: 'var(--s-4xl) 0', textAlign: 'center' }}>
+      <div style={{ maxWidth: '900px', margin: '0 auto' }}>
+        <h2 className={`reveal ${showReveal ? 'is-revealed' : ''}`}>Nous donnons forme à <em className="text-cyan">vos ambitions.</em></h2>
+        <p style={{ margin: '0 auto var(--s-2xl)' }}>
+          {t("desc")}
+        </p>
+        <div style={{ display: 'flex', gap: 'var(--s-3xl)', justifyContent: 'center', marginBottom: 'var(--s-2xl)' }}>
+          <div>
+            <h4 style={{ fontSize: '56px', fontWeight: 100, color: 'var(--cyan)' }}>
+              <Counter value={500} prefix="+" />
+            </h4>
+            <p className="stat-bar-lbl">Projets livrés</p>
           </div>
-          <Link
-            href="/about"
-            className="link-underlined"
-            style={{ marginTop: 'var(--s-2xl)' }}
-          >
-            Découvrir le studio →
-          </Link>
+          <div>
+            <h4 style={{ fontSize: '56px', fontWeight: 100, color: 'var(--cyan)' }}>
+              <Counter value={3} suffix="+" />
+            </h4>
+            <p className="stat-bar-lbl">Ans d&apos;excellence</p>
+          </div>
         </div>
-        <div className="glass-card" style={{ aspectRatio: '16/10', position: 'relative', overflow: 'hidden', padding: 0 }}>
-          <Image 
-            src="/images/about-visual.png" 
-            alt="AIA LAB Visual Identity" 
-            fill 
-            style={{ objectFit: 'cover', opacity: 0.8 }} 
-            className="reveal"
-          />
-          <div className="p-over" style={{ opacity: 0.4 }} />
-        </div>
+        <Link
+          href="/about"
+          className="link-underlined"
+        >
+          Découvrir le studio →
+        </Link>
       </div>
     </section>
   );

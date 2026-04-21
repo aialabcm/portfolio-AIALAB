@@ -78,14 +78,13 @@ export default function AboutPage() {
         {/* DOMAIN GRID */}
         <div className="domain-grid" style={{ margin: 'clamp(40px, 8vh, 80px) 0' }} ref={domainRef}>
           {[
-            { tag: 'BRANDING & DESIGN', img: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&q=80&w=800' },
-            { tag: 'STRATÉGIE & CONSEIL', img: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800' },
-            { tag: 'TECH & DÉVELOPPEMENT', img: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=800' },
+            { tag: 'BRANDING & DESIGN', desc: 'Identités visuelles fortes et mémorables.' },
+            { tag: 'STRATÉGIE & CONSEIL', desc: 'Accompagnement décisionnel pour votre croissance.' },
+            { tag: 'TECH & DÉVELOPPEMENT', desc: 'Solutions technologiques de pointe et évolutives.' },
           ].map((d, i) => (
-            <RevealWrapper key={i} className="domain-col reveal">
-              <img src={d.img} alt={d.tag} style={{ objectFit: 'cover', width: '100%', height: '100%', borderRadius: '20px' }} />
-              <div className="domain-overlay" style={{ borderRadius: '20px' }} />
-              <div className="domain-tag">{d.tag}</div>
+            <RevealWrapper key={i} className="domain-col reveal" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: '40px', textAlign: 'center', border: '1px solid var(--glass-border)', background: 'var(--glass-bg)', backdropFilter: 'blur(32px)' }}>
+              <div className="domain-tag" style={{ position: 'relative', bottom: 'auto', left: 'auto', marginBottom: '20px', fontSize: '14px' }}>{d.tag}</div>
+              <p style={{ fontSize: '14px', opacity: 0.6, margin: 0 }}>{d.desc}</p>
             </RevealWrapper>
           ))}
         </div>

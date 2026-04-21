@@ -171,10 +171,17 @@ a { text-decoration: none; color: inherit; }
   align-items: center;
 }
 
-.nav-link:hover,
+@media (hover: hover) {
+  .nav-link:hover,
+  .nav-link.active {
+    color: var(--white);
+    transform: translateY(-2px);
+    text-shadow: 0 0 20px var(--cyan);
+  }
+}
+
 .nav-link.active {
   color: var(--white);
-  transform: translateY(-2px);
   text-shadow: 0 0 20px var(--cyan);
 }
 
@@ -376,9 +383,11 @@ h4, h5, h6 {
   will-change: transform, box-shadow;
 }
 
-.p-item:hover {
-  border-color: rgba(0, 210, 255, 0.4);
-  box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6), 0 0 40px rgba(0, 210, 255, 0.15);
+@media (hover: hover) {
+  .p-item:hover {
+    border-color: rgba(0, 210, 255, 0.4);
+    box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6), 0 0 40px rgba(0, 210, 255, 0.15);
+  }
 }
 
 .p-over {
@@ -411,8 +420,10 @@ h4, h5, h6 {
   transition: color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.p-item:hover .p-info h4 {
-  color: var(--cyan);
+@media (hover: hover) {
+  .p-item:hover .p-info h4 {
+    color: var(--cyan);
+  }
 }
 
 /* ═══ GLASS PANELS ═══ */
@@ -467,11 +478,13 @@ h4, h5, h6 {
   opacity: 0.6;
 }
 
-.glass-card:hover {
-  border-color: rgba(255,255,255,0.2);
-  background: rgba(255, 255, 255, 0.08); /* Slightly brighter on hover */
-  box-shadow: 0 40px 80px rgba(0, 0, 0, 0.4), 0 0 30px rgba(0, 210, 255, 0.1);
-  background-image: var(--glass-sheen); /* Use the sheen on hover */
+@media (hover: hover) {
+  .glass-card:hover {
+    border-color: rgba(255,255,255,0.2);
+    background: rgba(255, 255, 255, 0.08); /* Slightly brighter on hover */
+    box-shadow: 0 40px 80px rgba(0, 0, 0, 0.4), 0 0 30px rgba(0, 210, 255, 0.1);
+    background-image: var(--glass-sheen); /* Use the sheen on hover */
+  }
 }
 
 /* ═══ MASTER BUTTONS ═══ */
@@ -529,10 +542,12 @@ p { font-size: 18px; font-weight: 300; color: rgba(255, 255, 255, 0.6); max-widt
   text-transform: uppercase;
 }
 
-.link-underlined:hover {
-  color: var(--white);
-  border-bottom-color: var(--white);
-  transform: translateX(8px);
+@media (hover: hover) {
+  .link-underlined:hover {
+    color: var(--white);
+    border-bottom-color: var(--white);
+    transform: translateX(8px);
+  }
 }
 
 /* ═══ PILL COMPONENTS (Unified) ═══ */
@@ -559,33 +574,23 @@ p { font-size: 18px; font-weight: 300; color: rgba(255, 255, 255, 0.6); max-widt
   color: var(--dark);
 }
 
-.pill-primary:hover {
-  background: var(--cyan);
-  transform: translateY(-4px);
-  box-shadow: 0 20px 40px rgba(0, 210, 255, 0.2);
-}
+@media (hover: hover) {
+  .pill-primary:hover {
+    background: var(--cyan);
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px rgba(0, 210, 255, 0.2);
+  }
+  
+  .pill-glass:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: var(--cyan);
+    color: var(--white);
+  }
 
-.pill-glass {
-  background: var(--glass-bg);
-  backdrop-filter: blur(var(--glass-blur));
-  -webkit-backdrop-filter: blur(var(--glass-blur));
-  border-color: var(--glass-border);
-  color: var(--white);
-}
-
-.pill-glass:hover {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: var(--cyan);
-  color: var(--white);
-}
-
-.pill-ghost {
-  color: rgba(255, 255, 255, 0.6);
-}
-
-.pill-ghost:hover {
-  color: var(--white);
-  letter-spacing: 0.15em;
+  .pill-ghost:hover {
+    color: var(--white);
+    letter-spacing: 0.15em;
+  }
 }
 
 /* ═══ HERO ═══ */
@@ -699,7 +704,9 @@ p { font-size: 18px; font-weight: 300; color: rgba(255, 255, 255, 0.6); max-widt
 .f-links { list-style: none; }
 .f-links li { margin-bottom: 16px; }
 .f-links a { display: inline-flex; align-items: center; min-height: 44px; color: rgba(255,255,255,0.7); text-decoration: none; font-size: 14px; cursor: pointer; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
-.f-links a:hover { color: var(--cyan); }
+@media (hover: hover) {
+  .f-links a:hover { color: var(--cyan); }
+}
 
 /* ═══ DOMAIN GRID ═══ */
 .domain-grid {
@@ -724,7 +731,9 @@ p { font-size: 18px; font-weight: 300; color: rgba(255, 255, 255, 0.6); max-widt
   transition: 0.5s ease;
 }
 
-.domain-col:hover img { opacity: 1; transform: scale(1.05); }
+@media (hover: hover) {
+  .domain-col:hover img { opacity: 1; transform: scale(1.05); }
+}
 
 .domain-tag {
   position: absolute;
@@ -807,7 +816,9 @@ p { font-size: 18px; font-weight: 300; color: rgba(255, 255, 255, 0.6); max-widt
     text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.5); 
     cursor: pointer; transition: 0.3s;
 }
-.filter-btn:hover { background: rgba(255,255,255,0.06); color: white; }
+@media (hover: hover) {
+  .filter-btn:hover { background: rgba(255,255,255,0.06); color: white; }
+}
 .filter-btn.active { background: var(--cyan); color: black; border-color: var(--cyan); }
 .p-item.hidden { display: none; }
 
@@ -840,7 +851,7 @@ p { font-size: 18px; font-weight: 300; color: rgba(255, 255, 255, 0.6); max-widt
   .container { padding: 0 clamp(24px, 5vw, 40px); }
 
   /* Horizontal Scrolling Sections */
-  .service-grid, .slider-wrap, .domain-grid, .stat-bar-row {
+  .service-grid, .slider-wrap, .domain-grid {
     display: flex;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
@@ -849,9 +860,23 @@ p { font-size: 18px; font-weight: 300; color: rgba(255, 255, 255, 0.6); max-widt
     padding-right: var(--s-md);
   }
 
-  .glass-card, .p-item, .domain-col, .stat-bar-item {
+  .stat-bar-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--s-lg);
+    margin-top: 40px;
+  }
+
+  .glass-card, .p-item, .domain-col {
     min-width: 85vw;
     scroll-snap-align: center;
+  }
+
+  .stat-bar-item {
+    min-width: 140px;
+    text-align: center;
+    padding-top: 0;
   }
 
   .hero-links { flex-direction: column; gap: var(--s-md); }
@@ -872,15 +897,7 @@ p { font-size: 18px; font-weight: 300; color: rgba(255, 255, 255, 0.6); max-widt
   .stat-bar-row { grid-template-columns: 1fr !important; }
 }
 
-/* ═══ HOVER OPTIMIZATION (Desktop Only) ═══ */
-@media (hover: hover) {
-  .p-item:hover .p-over { opacity: 0.4; }
-  .p-item:hover img { transform: scale(1.05); }
-  .domain-col:hover img { opacity: 1; transform: scale(1.05); }
-  .nav-link:hover { transform: scale(1.1); text-shadow: 0 0 15px var(--cyan); }
-  .pill-primary:hover { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0, 210, 255, 0.2); }
-  .link-underlined:hover { transform: translateX(8px); }
-}
+/* Existing hover optimizations already handled above */
 
 /* Fallback for touch to keep visibility */
 @media (hover: none) {
