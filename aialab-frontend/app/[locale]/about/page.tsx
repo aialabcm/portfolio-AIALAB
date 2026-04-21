@@ -4,6 +4,7 @@ import React, { useRef, useEffect } from "react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { useTranslations } from "next-intl";
+import Image from "next/image";
 import RevealWrapper from "@/components/ui/RevealWrapper";
 import Counter from "@/components/ui/Counter";
 
@@ -78,13 +79,36 @@ export default function AboutPage() {
         {/* DOMAIN GRID */}
         <div className="domain-grid" style={{ margin: 'clamp(40px, 8vh, 80px) 0' }} ref={domainRef}>
           {[
-            { tag: 'BRANDING & DESIGN', desc: 'Identités visuelles fortes et mémorables.' },
-            { tag: 'STRATÉGIE & CONSEIL', desc: 'Accompagnement décisionnel pour votre croissance.' },
-            { tag: 'TECH & DÉVELOPPEMENT', desc: 'Solutions technologiques de pointe et évolutives.' },
+            { 
+              tag: 'BRANDING & DESIGN', 
+              desc: 'Identités visuelles fortes et mémorables.',
+              img: 'https://images.unsplash.com/photo-1558655146-d09347e92766?q=80&w=1964&auto=format&fit=crop'
+            },
+            { 
+              tag: 'STRATÉGIE & CONSEIL', 
+              desc: 'Accompagnement décisionnel pour votre croissance.',
+              img: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2015&auto=format&fit=crop'
+            },
+            { 
+              tag: 'TECH & DÉVELOPPEMENT', 
+              desc: 'Solutions technologiques de pointe et évolutives.',
+              img: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop'
+            },
           ].map((d, i) => (
-            <RevealWrapper key={i} className="domain-col reveal" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: '40px', textAlign: 'center', border: '1px solid var(--glass-border)', background: 'var(--glass-bg)', backdropFilter: 'blur(32px)' }}>
-              <div className="domain-tag" style={{ position: 'relative', bottom: 'auto', left: 'auto', marginBottom: '20px', fontSize: '14px' }}>{d.tag}</div>
-              <p style={{ fontSize: '14px', opacity: 0.6, margin: 0 }}>{d.desc}</p>
+            <RevealWrapper key={i} className="domain-col reveal">
+              <Image 
+                src={d.img} 
+                alt={d.tag} 
+                fill 
+                style={{ objectFit: 'cover' }} 
+                sizes="(max-width: 768px) 100vw, 33vw"
+              />
+              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(5,10,24,0.9), transparent 60%)', zIndex: 1 }} />
+              
+              <div style={{ position: 'absolute', bottom: '32px', left: '32px', right: '32px', zIndex: 10 }}>
+                 <div className="domain-tag" style={{ position: 'relative', bottom: 'auto', left: 'auto', marginBottom: '12px' }}>{d.tag}</div>
+                 <p style={{ fontSize: '13px', opacity: 0.5, margin: 0, lineHeight: 1.4, maxWidth: '240px' }}>{d.desc}</p>
+              </div>
             </RevealWrapper>
           ))}
         </div>
