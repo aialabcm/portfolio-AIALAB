@@ -37,7 +37,7 @@ export default function ProjectsGrid({ projects }: ProjectsGridProps) {
       </div>
 
       {/* MASTER SLIDER */}
-      <div className="slider-wrap" id="master-portfolio-slider">
+      <div className="slider-wrap bleed-right" id="master-portfolio-slider">
         {filteredProjects.map((project) => (
           <ProjectCard key={project.slug} project={project} />
         ))}

@@ -13,7 +13,7 @@ export default async function ProjectsPage() {
     <main>
       <Navbar />
       <div className="container" style={{ paddingTop: '180px', paddingBottom: '100px' }}>
-        <RevealWrapper component="section" className="glass-panel" style={{ paddingTop: 0 }}>
+        <RevealWrapper component="section">
           <h2 style={{ marginBottom: '24px' }}>
             {t.rich("page_title", {
               em: (chunks) => (
