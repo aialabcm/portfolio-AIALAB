@@ -15,13 +15,14 @@ export async function fetchGraphQL(query: string, variables = {}) {
   }
 
   const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 10000);
+  const timeoutId = setTimeout(() => controller.abort(), 30000);
 
   try {
     const res = await fetch(endpoint, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36',
       },
       body: JSON.stringify({ query, variables }),
       next: { revalidate: 60 },
@@ -66,31 +67,16 @@ export const GET_PROJETS = `
           }
         }
         deTailsProjet {
-          categorieProjet: categorieDuProjet
+          categorieduprojet
           nomDuClient
-          dateLivraison: datelivraison
-          lienDuProjet: lienduprojet
-          contexteMission: contextemission
+          dateDeLivraison
+          lienduprojet
+          contextemission
           image1 {
             node {
               sourceUrl
             }
           }
-          # image2 {
-          #   node {
-          #     sourceUrl
-          #   }
-          # }
-          # image3 {
-          #   node {
-          #     sourceUrl
-          #   }
-          # }
-          # image4 {
-          #   node {
-          #     sourceUrl
-          #   }
-          # }
         }
       }
     }
@@ -108,31 +94,31 @@ export const GET_PROJET_BY_SLUG = `
         }
       }
       deTailsProjet {
-        categorieProjet: categorieDuProjet
+        categorieduprojet
         nomDuClient
-        dateLivraison: datelivraison
-        lienDuProjet: lienduprojet
-        contexteMission: contextemission
+        dateDeLivraison
+        lienduprojet
+        contextemission
         image1 {
           node {
             sourceUrl
           }
         }
-        # image2 {
-        #   node {
-        #     sourceUrl
-        #   }
-        # }
-        # image3 {
-        #   node {
-        #     sourceUrl
-        #   }
-        # }
-        # image4 {
-        #   node {
-        #     sourceUrl
-        #   }
-        # }
+        image2 {
+          node {
+            sourceUrl
+          }
+        }
+        image3 {
+          node {
+            sourceUrl
+          }
+        }
+        image4 {
+          node {
+            sourceUrl
+          }
+        }
       }
     }
   }
@@ -144,23 +130,42 @@ export const GET_SERVICES = `
       nodes {
         title
         deTailsService {
-          iconeSvg: iconesvg
-          descriptionCourte
-          ordreDaffichage: ordredaffichage
+          iconeSvg
+          descriptionCourte: descriptioncourte
+          ordreDaffichage
         }
       }
     }
   }
 `;
 
+function mapProject(node: any): Project {
+  if (!node) return node;
+  const details = node.deTailsProjet || {};
+  return {
+    ...node,
+    deTailsProjet: {
+      categorieProjet: details.categorieduprojet || "Projet",
+      nomDuClient: details.nomDuClient || "Confidentiel",
+      dateLivraison: details.dateDeLivraison || "",
+      lienDuProjet: details.lienduprojet || "",
+      contexteMission: details.contextemission || "",
+      image1: details.image1 || null,
+      image2: details.image2 || null,
+      image3: details.image3 || null,
+      image4: details.image4 || null,
+    }
+  };
+}
+
 export async function getProjects(): Promise<Project[]> {
   const data = await fetchGraphQL(GET_PROJETS);
-  return data?.projets?.nodes || [];
+  return data?.projets?.nodes?.map(mapProject) || [];
 }
 
 export async function getProjectBySlug(slug: string): Promise<Project | undefined> {
   const data = await fetchGraphQL(GET_PROJET_BY_SLUG, { slug });
-  return data?.projet;
+  return data?.projet ? mapProject(data.projet) : undefined;
 }
 
 export async function getServices(): Promise<Service[]> {

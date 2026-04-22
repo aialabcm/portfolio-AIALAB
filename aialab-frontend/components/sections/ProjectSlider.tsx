@@ -16,7 +16,6 @@ export default function ProjectSlider({ projects }: ProjectSliderProps) {
   const { ref, isRevealed } = useReveal();
   const sliderRef = useRef<HTMLDivElement>(null);
 
-  if (!projects || projects.length === 0) return null;
 
   useEffect(() => {
     const slider = sliderRef.current;
@@ -45,6 +44,8 @@ export default function ProjectSlider({ projects }: ProjectSliderProps) {
       stopAutoScroll();
     };
   }, []);
+
+  if (!projects || projects.length === 0) return null;
 
   return (
     <section ref={ref} className={`glass-panel ${isRevealed ? 'revealed is-revealed' : ''}`} style={{ padding: 'var(--s-4xl) var(--s-2xl)' }}>

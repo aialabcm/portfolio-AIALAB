@@ -37,6 +37,10 @@ export default function ProjectCard({ project }: ProjectCardProps) {
     // Normalize position (-0.5 to 0.5)
     x.set(mouseXPos / width - 0.5);
     y.set(mouseYPos / height - 0.5);
+
+    // Update CSS variables for the light sheen
+    cardRef.current.style.setProperty('--mouse-x', `${(mouseXPos / width) * 100}%`);
+    cardRef.current.style.setProperty('--mouse-y', `${(mouseYPos / height) * 100}%`);
   };
 
   const handleMouseLeave = () => {
@@ -51,38 +55,62 @@ export default function ProjectCard({ project }: ProjectCardProps) {
   return (
     <motion.div
       style={{ perspective: 1000 }}
-      initial={{ opacity: 0, y: 20 }}
-      animate={isRevealed ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] as any }}
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
     >
       <Link 
         ref={cardRef} 
         href={`/projects/${project.slug}`} 
-        className={`p-item reveal ${isRevealed ? 'is-revealed' : ''}`}
+        className={`p-item ${isRevealed ? 'is-revealed' : ''}`}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
-        style={{ position: 'relative', overflow: 'hidden' }}
       >
+        {/* Layer 0: The Image with Parallax */}
         <motion.div 
           style={{ 
-            rotateX, rotateY, 
-            width: '100%', height: '100%', 
-            position: 'relative' 
+            rotateX, rotateY,
+            scale: 1.1,
+            position: 'absolute',
+            inset: 0,
+            zIndex: 1
           }}
         >
           <Image 
             src={imageUrl} 
             alt={project.title} 
             fill 
-            style={{ objectFit: 'cover' }}
+            style={{ 
+              objectFit: 'cover',
+              filter: 'contrast(1.1) brightness(0.8)'
+            }}
             sizes="(max-width: 768px) 100vw, 550px"
           />
-          <div className="p-over" />
-          <div className="p-info">
-            <span>{category} {year && `— ${year}`}</span>
-            <h4>{project.title}</h4>
-          </div>
         </motion.div>
+        
+        {/* Layer 1: Grain Texture Overlay */}
+        <div className="p-grain" style={{ zIndex: 2 }} />
+        
+        {/* Layer 2: Gradient Overlay for text readability */}
+        <div className="p-over" style={{ zIndex: 3 }} />
+        
+        {/* Layer 3: Dynamic Light Sheen */}
+        <motion.div 
+          style={{
+            position: 'absolute',
+            inset: 0,
+            background: `radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255,255,255,0.12) 0%, transparent 50%)`,
+            zIndex: 4,
+            pointerEvents: 'none'
+          }}
+        />
+
+        {/* Layer 4: Content */}
+        <div className="p-info" style={{ zIndex: 10 }}>
+          <span>{category} {year && `— ${year}`}</span>
+          <h4>{project.title}</h4>
+        </div>
       </Link>
     </motion.div>
   );
