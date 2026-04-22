@@ -15,7 +15,7 @@ export async function fetchGraphQL(query: string, variables = {}) {
   }
 
   const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 3000);
+  const timeoutId = setTimeout(() => controller.abort(), 10000);
 
   try {
     const res = await fetch(endpoint, {
@@ -46,7 +46,7 @@ export async function fetchGraphQL(query: string, variables = {}) {
   } catch (error: any) {
     clearTimeout(timeoutId);
     if (error.name === 'AbortError') {
-      console.error('GraphQL fetch timed out after 3 seconds.');
+      console.error('GraphQL fetch timed out after 10 seconds.');
     } else {
       console.error('GraphQL fetch error:', error.message);
     }

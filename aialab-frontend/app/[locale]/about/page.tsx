@@ -82,17 +82,17 @@ export default function AboutPage() {
             { 
               tag: 'BRANDING & DESIGN', 
               desc: 'Identités visuelles fortes et mémorables.',
-              img: 'https://images.unsplash.com/photo-1558655146-d09347e92766?q=80&w=1964&auto=format&fit=crop'
+              img: 'https://images.unsplash.com/photo-1626785774573-4b799315345d?q=80&w=2071&auto=format&fit=crop'
             },
             { 
               tag: 'STRATÉGIE & CONSEIL', 
               desc: 'Accompagnement décisionnel pour votre croissance.',
-              img: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2015&auto=format&fit=crop'
+              img: 'https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2070&auto=format&fit=crop'
             },
             { 
               tag: 'TECH & DÉVELOPPEMENT', 
               desc: 'Solutions technologiques de pointe et évolutives.',
-              img: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop'
+              img: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=2070&auto=format&fit=crop'
             },
           ].map((d, i) => (
             <RevealWrapper key={i} className="domain-col reveal">
@@ -152,7 +152,7 @@ export default function AboutPage() {
           <h3 style={{ fontWeight: 300 }} className="stagger-item">Notre Processus <em style={{ fontStyle: 'normal', fontWeight: 400, color: 'var(--cyan)' }}>Rigoureux</em></h3>
           <div className="service-grid" style={{ marginTop: 'clamp(40px, 8vh, 80px)' }} ref={processRef}>
             {[
-              { num: '01.', title: 'Immersion', desc: "Audit complet de vos enjeux business, étude de vos concurrents et de vos aspirations profondes.", fw: 300 },
+              { num: '01.', title: 'Immersion', desc: "Audit complet de vos enjeux business, étude de vos concurrents et de vos aspirations profondes.", fw: 900 },
               { num: '02.', title: 'Stratégie', desc: "Définition d'un angle d'attaque créatif et technologique unique pour différencier votre projet.", fw: 900 },
               { num: '03.', title: 'Création', desc: "Développement du design haute-fidélité et de la technologie jusqu'à l'excellence visuelle.", fw: 900 },
               { num: '04.', title: 'Lancement', desc: "Expansion et suivi de performance pour s'assurer que vos objectifs business sont atteints.", fw: 900 },

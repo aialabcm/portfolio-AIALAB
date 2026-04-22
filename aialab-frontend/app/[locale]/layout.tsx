@@ -20,6 +20,8 @@ export const metadata: Metadata = {
   },
 };
 
+import {setRequestLocale} from 'next-intl/server';
+
 export default async function RootLayout({
   children,
   params
@@ -28,12 +30,13 @@ export default async function RootLayout({
   params: Promise<{locale: string}>;
 }) {
   const {locale} = await params;
+  setRequestLocale(locale);
   const messages = await getMessages();
 
   return (
     <html lang={locale} className={inter.variable}>
       <body>
-        <NextIntlClientProvider messages={messages}>
+        <NextIntlClientProvider locale={locale} messages={messages}>
           <div className="page-bg home" id="master-bg" />
           <div className="bg-blob blob-1" />
           <div className="bg-blob blob-2" />

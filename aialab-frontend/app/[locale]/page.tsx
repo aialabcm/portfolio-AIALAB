@@ -7,7 +7,11 @@ import ProjectSlider from "@/components/sections/ProjectSlider";
 import ContactCTA from "@/components/sections/ContactCTA";
 import { getProjects, getServices } from "@/lib/api";
 
-export default async function Home() {
+import { setRequestLocale } from 'next-intl/server';
+
+export default async function Home({ params }: { params: Promise<{ locale: string }> }) {
+  const {locale} = await params;
+  setRequestLocale(locale);
   const [projects, services] = await Promise.all([getProjects(), getServices()]);
 
   return (

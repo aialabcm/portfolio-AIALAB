@@ -1,7 +1,8 @@
 import type { NextConfig } from "next";
 import createNextIntlPlugin from 'next-intl/plugin';
 
-const withNextIntl = createNextIntlPlugin('./next-intl.config.ts');
+// next-intl v4: default config path is './i18n/request.ts'
+const withNextIntl = createNextIntlPlugin();
 
 const nextConfig: NextConfig = {
   images: {
@@ -9,6 +10,10 @@ const nextConfig: NextConfig = {
       {
         protocol: 'https',
         hostname: 'cms.aialabcmr.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
       },
     ],
   },
