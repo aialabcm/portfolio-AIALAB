@@ -10,17 +10,17 @@ export default function AboutStrip() {
   const t = useTranslations("about");
 
   return (
-    <RevealWrapper component="section" className="glass-panel" style={{ padding: 'var(--s-4xl) 0' }}>
-      <div className="flex-split" style={{ alignItems: 'center' }}>
+    <RevealWrapper component="section" className="glass-panel">
+      <div className="flex-split">
         <div style={{ textAlign: 'left' }}>
           <h2 className="stagger-item">
             Nous donnons forme à <em className="text-cyan">vos ambitions.</em>
           </h2>
-          <p className="stagger-item" style={{ marginBottom: 'var(--s-2xl)', maxWidth: '800px' }}>
+          <p className="stagger-item">
             {t("desc")}
           </p>
           
-          <div className="stat-bar-row stagger-item" style={{ gridTemplateColumns: 'repeat(2, 1fr)', gap: 'var(--s-xl)', marginTop: 0, marginBottom: 'var(--s-3xl)' }}>
+          <div className="stat-bar-row stagger-item">
             <div className="stat-bar-item">
               <div className="stat-bar-val">
                 <Counter value={500} prefix="+" />

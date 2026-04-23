@@ -141,15 +141,20 @@ export const GET_SERVICES = `
 
 function mapProject(node: any): Project {
   if (!node) return node;
-  const details = node.deTailsProjet || {};
+  const details = node.deTailsProjet || node.detailsProjet || {};
+  
+  // Handle categorieduprojet being an array or string
+  const rawCat = details.categorieduprojet;
+  const cat = Array.isArray(rawCat) ? rawCat.join(", ") : (rawCat || "Projet");
+
   return {
     ...node,
     deTailsProjet: {
-      categorieProjet: details.categorieduprojet || "Projet",
+      categorieProjet: cat,
       nomDuClient: details.nomDuClient || "Confidentiel",
       dateLivraison: details.dateDeLivraison || "",
       lienDuProjet: details.lienduprojet || "",
-      contexteMission: details.contextemission || "",
+      contexteMission: details.contextemission || "Une réalisation AIA LAB alliant design d'exception et expertise technique.",
       image1: details.image1 || null,
       image2: details.image2 || null,
       image3: details.image3 || null,

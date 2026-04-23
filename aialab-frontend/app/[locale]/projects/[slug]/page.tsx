@@ -13,7 +13,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
   if (!project) notFound();
 
   return (
-    <main className="page-bg internal">
+    <main>
       <Navbar />
       <ProjectDetailView project={project} />
       <ContactCTA />

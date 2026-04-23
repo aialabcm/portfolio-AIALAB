@@ -7,8 +7,8 @@
 ---
 
 **Project:** AIA LAB Portfolio
-**Generated:** 2026-04-21 15:53:35
-**Category:** Space Tech / Aerospace
+**Generated:** 2026-04-23 22:20:32
+**Category:** Marketing Agency
 
 ---
 
@@ -18,29 +18,29 @@
 
 | Role | Hex | CSS Variable |
 |------|-----|--------------|
-| Primary | `#18181B` | `--color-primary` |
+| Primary | `#7C3AED` | `--color-primary` |
 | On Primary | `#FFFFFF` | `--color-on-primary` |
-| Secondary | `#3F3F46` | `--color-secondary` |
-| Accent/CTA | `#2563EB` | `--color-accent` |
-| Background | `#FAFAFA` | `--color-background` |
-| Foreground | `#09090B` | `--color-foreground` |
-| Muted | `#E8ECF0` | `--color-muted` |
-| Border | `#E4E4E7` | `--color-border` |
+| Secondary | `#8B5CF6` | `--color-secondary` |
+| Accent/CTA | `#059669` | `--color-accent` |
+| Background | `#FAF5FF` | `--color-background` |
+| Foreground | `#0F172A` | `--color-foreground` |
+| Muted | `#F7F3FD` | `--color-muted` |
+| Border | `#EFE7FC` | `--color-border` |
 | Destructive | `#DC2626` | `--color-destructive` |
-| Ring | `#18181B` | `--color-ring` |
+| Ring | `#7C3AED` | `--color-ring` |
 
-**Color Notes:** Monochrome + blue accent
+**Color Notes:** Study purple + correct green
 
 ### Typography
 
-- **Heading Font:** Playfair Display
-- **Body Font:** Source Serif 4
-- **Mood:** monochrome, editorial, austere, typographic, pocket manifesto, luxury, high contrast, brutalist mobile
-- **Google Fonts:** [Playfair Display + Source Serif 4](https://fonts.google.com/share?selection.family=JetBrains+Mono:wght@400;500|Playfair+Display:ital,wght@0,400;0,700;0,900;1,400|Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300)
+- **Heading Font:** Archivo
+- **Body Font:** Space Grotesk
+- **Mood:** minimal, portfolio, designer, creative, clean, artistic
+- **Google Fonts:** [Archivo + Space Grotesk](https://fonts.google.com/share?selection.family=Archivo:wght@300;400;500;600;700|Space+Grotesk:wght@300;400;500;600;700)
 
 **CSS Import:**
 ```css
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
 ```
 
 ### Spacing Variables
@@ -73,7 +73,7 @@
 ```css
 /* Primary Button */
 .btn-primary {
-  background: #2563EB;
+  background: #059669;
   color: white;
   padding: 12px 24px;
   border-radius: 8px;
@@ -90,8 +90,8 @@
 /* Secondary Button */
 .btn-secondary {
   background: transparent;
-  color: #18181B;
-  border: 2px solid #18181B;
+  color: #7C3AED;
+  border: 2px solid #7C3AED;
   padding: 12px 24px;
   border-radius: 8px;
   font-weight: 600;
@@ -104,7 +104,7 @@
 
 ```css
 .card {
-  background: #FAFAFA;
+  background: #FAF5FF;
   border-radius: 12px;
   padding: 24px;
   box-shadow: var(--shadow-md);
@@ -130,9 +130,9 @@
 }
 
 .input:focus {
-  border-color: #18181B;
+  border-color: #7C3AED;
   outline: none;
-  box-shadow: 0 0 0 3px #18181B20;
+  box-shadow: 0 0 0 3px #7C3AED20;
 }
 ```
 
@@ -158,13 +158,13 @@
 
 ## Style Guidelines
 
-**Style:** Dark Mode (OLED)
+**Style:** Parallax Storytelling
 
-**Keywords:** Dark theme, low light, high contrast, deep black, midnight blue, eye-friendly, OLED, night mode, power efficient
+**Keywords:** Scroll-driven, narrative, layered scrolling, immersive, progressive disclosure, cinematic, scroll-triggered
 
-**Best For:** Night-mode apps, coding platforms, entertainment, eye-strain prevention, OLED devices, low-light
+**Best For:** Brand storytelling, product launches, case studies, portfolios, annual reports, marketing campaigns
 
-**Key Effects:** Minimal glow (text-shadow: 0 0 10px), dark-to-light transitions, low white emission, high readability, visible focus
+**Key Effects:** transform: translateY(scroll), position: fixed/sticky, perspective: 1px, scroll-triggered animations
 
 ### Page Pattern
 
@@ -178,8 +178,8 @@
 
 ## Anti-Patterns (Do NOT Use)
 
-- ❌ Generic design
-- ❌ No immersion
+- ❌ Boring design
+- ❌ Hidden work
 
 ### Additional Forbidden Patterns
 

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Playfair_Display } from "next/font/google";
 import "../../globals.css";
 import MouseHalo from "@/components/ui/MouseHalo";
 import RevealObserver from "@/components/layout/RevealObserver";
@@ -9,6 +9,12 @@ import {getMessages} from 'next-intl/server';
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
+  display: "swap",
+});
+
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  variable: "--font-playfair",
   display: "swap",
 });
 
@@ -34,7 +40,7 @@ export default async function RootLayout({
   const messages = await getMessages();
 
   return (
-    <html lang={locale} className={inter.variable}>
+    <html lang={locale} className={`${inter.variable} ${playfair.variable}`}>
       <body>
         <NextIntlClientProvider locale={locale} messages={messages}>
           <div className="page-bg home" id="master-bg" />

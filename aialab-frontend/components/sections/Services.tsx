@@ -32,7 +32,7 @@ export default function Services({ services }: ServicesProps) {
         if (slider.scrollLeft + slider.offsetWidth >= slider.scrollWidth - 10) {
           slider.scrollTo({ left: 0, behavior: 'smooth' });
         } else {
-          slider.scrollBy({ left: 240, behavior: 'smooth' });
+          slider.scrollBy({ left: slider.offsetWidth * 0.8, behavior: 'smooth' });
         }
       }, 3500);
     };
@@ -48,7 +48,7 @@ export default function Services({ services }: ServicesProps) {
   }, []);
 
   return (
-    <RevealWrapper component="section" className="glass-panel" style={{ padding: 'var(--s-4xl) var(--s-2xl)' }}>
+    <RevealWrapper component="section" className="glass-panel">
       <h2 style={{ marginBottom: 'var(--s-lg)' }}>
         {t.rich("title", { em: (chunks) => <em>{chunks}</em> })}
       </h2>

@@ -36,8 +36,8 @@ export default function ProjectsGrid({ projects }: ProjectsGridProps) {
         ))}
       </div>
 
-      {/* MASTER SLIDER */}
-      <div className="slider-wrap bleed-right" id="master-portfolio-slider">
+      {/* PROJECT GRID */}
+      <div className="kb-grid">
         {filteredProjects.map((project) => (
           <ProjectCard key={project.slug} project={project} />
         ))}
